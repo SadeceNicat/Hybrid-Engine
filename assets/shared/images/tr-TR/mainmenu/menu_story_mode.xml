@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="menu_story_mode.png">
+	<SubTexture name="story mode basic0000" x="11" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0001" x="11" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0002" x="11" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0003" x="736" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0004" x="736" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0005" x="736" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0006" x="1469" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0007" x="1469" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode basic0008" x="1469" y="1109" width="705" height="122"/>
+	<SubTexture name="story mode white0000" x="3" y="1271" width="940" height="176"/>
+	<SubTexture name="story mode white0001" x="972" y="1272" width="940" height="176"/>
+	<SubTexture name="story mode white0002" x="1942" y="1272" width="940" height="176"/>
+</TextureAtlas>

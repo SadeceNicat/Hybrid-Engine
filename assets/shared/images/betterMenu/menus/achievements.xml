@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="achievements.png">
+	<!-- Created with Adobe Animate version 24.0.0.305 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="achievements0000" x="0" y="0" width="443" height="141"/>
+	<SubTexture name="achievements0001" x="0" y="0" width="443" height="141"/>
+	<SubTexture name="achievements0002" x="0" y="0" width="443" height="141"/>
+	<SubTexture name="achievements0003" x="0" y="141" width="443" height="141"/>
+	<SubTexture name="achievements0004" x="0" y="141" width="443" height="141"/>
+	<SubTexture name="achievements0005" x="0" y="141" width="443" height="141"/>
+</TextureAtlas>
