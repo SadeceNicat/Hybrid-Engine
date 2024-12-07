@@ -24,7 +24,6 @@
 	<define name="DISCORD_ALLOWED" />
 	<define name="TRANSLATIONS_ALLOWED" />
 	<define name="IRIS_DEBUG"/>
-	<define name="BASE_GAME_FILES" />
 	<define name="GAMEJOLT_ALLOWED" />
 	<define name="VIDEOS_ALLOWED" if="windows || linux || android || mac" unless="32bits"/> 
 	
