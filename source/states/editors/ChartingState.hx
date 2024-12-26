@@ -343,7 +343,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		add(dummyArrow);
 		callOnHScript("onLoad",["dummyArrow",dummyArrow]);
 
-		vortexIndicator = new FlxSprite(gridBg.x - GRID_SIZE, FlxG.height/2).loadGraphic(Paths.image('editors/vortex_indicator'));
+		vortexIndicator = new FlxSprite(gridBg.x - GRID_SIZE, FlxG.height / 2).loadGraphic(Paths.image('editors/charteditor/vortex_indicator'));
 		vortexIndicator.setGraphicSize(GRID_SIZE);
 		vortexIndicator.updateHitbox();
 		vortexIndicator.scrollFactor.set();
@@ -362,12 +362,12 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		callOnHScript("onLoad",["movingNotes",movingNotes]);
 
 
-		lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
+		lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("editors/chartEditor/lilStage"));
 		lilStage.scrollFactor.set();
 		add(lilStage);
 		callOnHScript("onLoad",["lilStage",lilStage]);
 
-		lilBf = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilBf"), true, 300, 256);
+		lilBf = new FlxSprite(32, 432).loadGraphic(Paths.image("editors/chartEditor/lilBf"), true, 300, 256);
 		lilBf.animation.add("idle", [0, 1], 12, true);
 		lilBf.animation.add("0", [3, 4, 5], 12, false);
 		lilBf.animation.add("1", [6, 7, 8], 12, false);
@@ -383,7 +383,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		add(lilBf);
 		callOnHScript("onLoad",["lilBf",lilBf]);
 
-		lilOpp = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilOpp"), true, 300, 256);
+		lilOpp = new FlxSprite(32, 432).loadGraphic(Paths.image("editors/chartEditor/lilOpp"), true, 300, 256);
 		lilOpp.animation.add("idle", [0, 1], 12, true);
 		lilOpp.animation.add("0", [3, 4, 5], 12, false);
 		lilOpp.animation.add("1", [6, 7, 8], 12, false);
@@ -446,7 +446,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var iconY:Float = 50;
 		if(SHOW_EVENT_COLUMN)
 		{
-			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/eventIcon'));
+			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/charteditor/eventIcon'));
 			eventIcon.antialiasing = ClientPrefs.data.antialiasing;
 			eventIcon.alpha = 0.6;
 			eventIcon.setGraphicSize(30, 30);
@@ -522,7 +522,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		add(mainBox);
 		callOnHScript("onLoad",["mainBox",mainBox]);
 
-		autoSaveIcon = new FlxSprite(50).loadGraphic(Paths.image('editors/autosave'));
+		autoSaveIcon = new FlxSprite(50).loadGraphic(Paths.image('editors/charteditor/autosave'));
 		autoSaveIcon.screenCenter(Y);
 		autoSaveIcon.scale.set(0.6, 0.6);
 		autoSaveIcon.antialiasing = ClientPrefs.data.antialiasing;
