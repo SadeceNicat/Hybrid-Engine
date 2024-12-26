@@ -214,7 +214,7 @@ class Paths
 
 			if (bitmap == null)
 			{
-				trace('oh no its returning null NOOOO ($file)');
+				trace('File is returning null -> ($file)');
 				return null;
 			}
 		}

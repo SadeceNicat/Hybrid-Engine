@@ -39,8 +39,10 @@ class OptionsState extends MusicBeatState
 				MusicBeatState.switchState(new options.NoteOffsetState());
 			case 'Language':
 				openSubState(new options.LanguageSubState());
+			#if GAMEJOLT_ALLOWED
 			case 'Gamejolt':
 				MusicBeatState.switchState(new states.GameJoltState());
+			#end
 		}
 	}
 

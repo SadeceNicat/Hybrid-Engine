@@ -60,7 +60,7 @@ class Alphabet extends FlxSpriteGroup
 				}
 				else trace('[WARN] No Title JSON detected, using default values.');
 			} else {
-				trace("json not exist");
+			trace("This JSON does not exist.");
 			}
 		}
 

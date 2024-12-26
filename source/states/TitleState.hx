@@ -26,7 +26,9 @@ import states.MainMenuState;
 import crowplexus.iris.Iris;
 import psychlua.HScript;
 
+#if GAMEJOLT_ALLOWED
 import hxgamejolt.GameJolt;
+#end
 
 typedef MainConf = {
 	var Transition:Bool;
@@ -85,8 +87,10 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	#if GAMEJOLT_ALLOWED
 	var gameJoltGameID = "949510";
 	var privateKey = "a312bb89e09805ebc0fac1069bcc40c4";
+	#end
 
 	#if TITLE_SCREEN_EASTER_EGG
 	final easterEggKeys:Array<String> = [
@@ -151,8 +155,6 @@ class TitleState extends MusicBeatState
 	}
 	#end
 
-
-
 	#if GAMEJOLT_ALLOWED
 	function isGameJolt() {
 		trace(ClientPrefs.data.gameJoltUsername);
@@ -174,14 +176,14 @@ class TitleState extends MusicBeatState
 			GameJolt.authUser(playerName, playerKey, {
 			onSucceed: function(json:Dynamic):Void
 			{
-				trace("Game JOLT Hesabınız başarılı bir şekilde bağlandı.");
+					trace("Your Game JOLT Account has been successfully linked.");
 			},
 			onFail: function(message:String):Void
 			{
 				ClientPrefs.data.gameJoltUsername = "";
 				ClientPrefs.data.gameJoltToken = "";
 				ClientPrefs.saveSettings();
-				trace("Game Jolt Hesabı bulunamadı.");
+					trace("Game Jolt Account not found.");
 			}
 			});
 
@@ -189,14 +191,14 @@ class TitleState extends MusicBeatState
 			onSucceed: function(json:Dynamic):Void
 			{
 				FlxG.save.data.userJson = json;
-				trace("Game JOLT Hesabınızın verileri başarılı bir şekilde aktarıldı.");
+					trace("Your Game JOLT Account data has been transferred successfully.");
 			},
 			onFail: function(message:String):Void
 			{
 				ClientPrefs.data.gameJoltUsername = "";
 				ClientPrefs.data.gameJoltToken = "";
 				ClientPrefs.saveSettings();
-				trace("Game Jolt Hesabı bulunamadı.");
+					trace("Game Jolt Account not found.");
 			}
 			});
 		} else {
@@ -207,9 +209,7 @@ class TitleState extends MusicBeatState
 		}
 
 	}
-
 	#end
-
 
 	override public function create():Void
 	{
