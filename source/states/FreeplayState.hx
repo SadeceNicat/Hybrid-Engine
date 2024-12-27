@@ -19,6 +19,7 @@ typedef TitleConf = {
 	var Where:String;
 }
 
+
 class FreeplayState extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
@@ -469,82 +470,10 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 		
-
-
-
-		// if (isSongLoaded == true) {
-		// 	persistentUpdate = false;
-		// 	var songLowercase:String = Paths.formatToSongPath(loadedSong);
-		// 	var poop:String = Highscore.formatSong(songLowercase, 1);
-	
-		// 	try
-		// 	{
-		// 		Song.loadFromJson(poop, songLowercase);
-		// 		PlayState.isStoryMode = false;
-		// 		PlayState.storyDifficulty = 1;
-	
-		// 	}
-		// 	catch(e:haxe.Exception)
-		// 	{
-		// 		trace('ERROR! ${e.message}');
-	
-		// 		var errorStr:String = e.message;
-		// 		if(errorStr.contains('There is no TEXT asset with an ID of')) errorStr = 'Missing file: ' + errorStr.substring(errorStr.indexOf(songLowercase), errorStr.length-1); //Missing chart
-		// 		else errorStr += '\n\n' + e.stack;
-	
-		// 		missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
-		// 		missingText.screenCenter(Y);
-		// 		missingText.visible = true;
-		// 		missingTextBG.visible = true;
-		// 		FlxG.sound.play(Paths.sound('cancelMenu'));
-	
-		// 		updateTexts(elapsed);
-		// 		super.update(elapsed);
-		// 		return;
-		// 	}
-
-		// 	try
-		// 	{
-		// 		Song.loadFromJson(poop, songLowercase);
-		// 		PlayState.isStoryMode = false;
-		// 		PlayState.storyDifficulty = 1;
-	
-		// 	}
-		// 	catch(e:haxe.Exception)
-		// 	{
-		// 		trace('ERROR! ${e.message}');
-	
-		// 		var errorStr:String = e.message;
-		// 		if(errorStr.contains('There is no TEXT asset with an ID of')) errorStr = 'Missing file: ' + errorStr.substring(errorStr.indexOf(songLowercase), errorStr.length-1); //Missing chart
-		// 		else errorStr += '\n\n' + e.stack;
-	
-		// 		missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
-		// 		missingText.screenCenter(Y);
-		// 		missingText.visible = true;
-		// 		missingTextBG.visible = true;
-		// 		FlxG.sound.play(Paths.sound('cancelMenu'));
-	
-		// 		updateTexts(elapsed);
-		// 		super.update(elapsed);
-		// 		return;
-		// 	}
-	
-		// 	LoadingState.prepareToSong();
-		// 	MusicBeatState.switchState(new PlayState());
-		// }
-
 		#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
 		stopMusicPlay = true;
 
 		destroyFreeplayVocals();
-
-
-
-
-
-
-
-
 
 		if(FlxG.keys.justPressed.CONTROL && !player.playingMusic)
 		{
@@ -601,13 +530,11 @@ class FreeplayState extends MusicBeatState
 							opponentVocals.volume = 0.8;
 							opponentVocals.play();
 							opponentVocals.pause();
-							//trace('yaaay!!');
 						}
 						else opponentVocals = FlxDestroyUtil.destroy(opponentVocals);
 					}
 					catch(e:Dynamic)
 					{
-						//trace('FUUUCK');
 						opponentVocals = FlxDestroyUtil.destroy(opponentVocals);
 					}
 				}
@@ -664,11 +591,7 @@ class FreeplayState extends MusicBeatState
 				if (FlxG.save.data.isTransition == false) {
 					MusicBeatState.switchState(new PlayState());
 				} else {
-					if (FlxG.save.data.TransitionType == "Sticker") {
-						MusicBeatState.switchState(new PlayState());
-					} else {
-						LoadingState.loadAndSwitchState(new PlayState());
-					}
+					LoadingState.loadAndSwitchState(new PlayState());
 				}
 				#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
 				stopMusicPlay = true;

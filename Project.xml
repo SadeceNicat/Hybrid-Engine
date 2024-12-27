@@ -30,7 +30,6 @@
 	<define name="VIDEOS_ALLOWED" if="windows || linux || android || mac" unless="32bits" />
 
 	<define name="SHOW_LOADING_SCREEN" />
-	<define name="PSYCH_WATERMARKS" /> <!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 	<define name="BASE_GAME_FILES" />
 
 	<section if="officialBuild">

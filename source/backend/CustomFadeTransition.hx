@@ -124,14 +124,16 @@ class CustomFadeTransition extends MusicBeatSubstate {
 						newSticker.scale.set(0.95,0.95);
 						newSticker.scrollFactor.set(0,0);
 						add(newSticker);
-						var timer = new FlxTimer().start(timertime, function(timer:FlxTimer){
-							var randomsound = Math.ceil(Math.random() * 8);
-							if (randomsound <= 0) randomsound = 1;
-							if (randomsound >= 9) randomsound = 8;
-							FlxG.sound.play(Paths.sound('stickers/keyClick' + randomsound), 0.6);
-							newSticker.destroy();
-						});
-						timertime += 0.005;
+						if (FlxG.save.data.isLoadingScreen != true) {
+							var timer = new FlxTimer().start(timertime, function(timer:FlxTimer){
+								var randomsound = Math.ceil(Math.random() * 8);
+								if (randomsound <= 0) randomsound = 1;
+								if (randomsound >= 9) randomsound = 8;
+								FlxG.sound.play(Paths.sound('stickers/keyClick' + randomsound), 0.6);
+								newSticker.destroy();
+							});
+							timertime += 0.005;
+						}
 					}
 					
 				} else {
