@@ -27,14 +27,13 @@ typedef MenuData = {
 	@:optional var scrollFactor:Bool;
 }
 
-
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.1'; // This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.1';
 	public static var curSelected:Int = 0;
 	public static var curColumn:MainMenuColumn = CENTER;
 	public var menuSprites:Map<String, FlxSprite> = new Map<String, FlxSprite>();
-	var allowMouse:Bool = true; //Turn this off to block mouse movement in menus
+	var allowMouse:Bool = true;
 
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -68,7 +67,7 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var menuItemsSprite:Array<Dynamic> = [];
 	var disableLeftRightMenu:Bool = false;
-	var hybridEngineMenu:Bool = true;
+	var hybridEngineMenu:Bool = false;
 	var gameJoltButton:FlxSprite;
 	var disableKeyboard:Bool = false;
 	var cancelLoad:Bool = false;
@@ -143,7 +142,6 @@ class MainMenuState extends MusicBeatState
 		Mods.loadTopMod();
 
 		#if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
@@ -170,13 +168,6 @@ class MainMenuState extends MusicBeatState
 				];
 				allowMouse = false;
 				disableLeftRightMenu = true;
-
-				// gameJoltButton = new FlxSprite();
-				// gameJoltButton.loadGraphic(Paths.image("login/gamejolt"));
-				// gameJoltButton.scrollFactor.set();
-				// gameJoltButton.x = 1150;
-				// gameJoltButton.scale.set(0.5,0.5);
-				// add(gameJoltButton);
 			}
 
 		persistentUpdate = persistentDraw = true;
@@ -293,7 +284,6 @@ class MainMenuState extends MusicBeatState
 		changeItem();
 
 		#if ACHIEVEMENTS_ALLOWED
-		// Unlocks "Freaky on a Friday Night" achievement if it's a Friday and between 18:00 PM and 23:59 PM
 		var leDate = Date.now();
 		if (leDate.getDay() == 5 && leDate.getHours() >= 18)
 			Achievements.unlock('friday_night_play');
@@ -575,20 +565,23 @@ class MainMenuState extends MusicBeatState
 				if (eventValue == "storymode") {
 					MusicBeatState.switchState(new StoryMenuState());
 				}
-				if (eventValue == "freeplay") {
+				else if (eventValue == "freeplay") {
 					MusicBeatState.switchState(new FreeplayState());
 				}
-				if (eventValue == "credits") {
+				else if (eventValue == "credits") {
 					MusicBeatState.switchState(new CreditsState());
 				}
-				if (eventValue == "options") {
+				else if (eventValue == "options") {
 					MusicBeatState.switchState(new OptionsState());
 				}
-				if (eventValue == "achievement") {
+				else if (eventValue == "achievement") {
 					MusicBeatState.switchState(new AchievementsMenuState());
 				}
-				if (eventValue == "mods") {
+				else if (eventValue == "mods") {
 					MusicBeatState.switchState(new ModsMenuState());
+				} else {
+					FlxG.save.data.currentState = eventValue;
+					MusicBeatState.switchState(new CustomState());
 				}
 			case "LoadSong" :
 				var songLowercase:String = Paths.formatToSongPath(eventValue);
@@ -604,11 +597,7 @@ class MainMenuState extends MusicBeatState
 				if (FlxG.save.data.isTransition == false) {
 					MusicBeatState.switchState(new PlayState());
 				} else {
-					if (FlxG.save.data.TransitionType == "Sticker") {
-						MusicBeatState.switchState(new PlayState());
-					} else {
-						LoadingState.loadAndSwitchState(new PlayState());
-					}
+					LoadingState.loadAndSwitchState(new PlayState());
 				}
 			default :
 				trace("Null Value");
