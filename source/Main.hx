@@ -4,20 +4,20 @@ package;
 import android.content.Context;
 #end
 
+import backend.Highscore;
 import debug.FPSCounter;
-
-import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.graphics.FlxGraphic;
 import haxe.io.Path;
+import lime.app.Application;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
-import openfl.events.Event;
 import openfl.display.StageScaleMode;
-import lime.app.Application;
+import openfl.events.Event;
 import states.TitleState;
-
+import states.editors.PlayerCreator;
 #if linux
 import lime.graphics.Image;
 #end
@@ -28,12 +28,11 @@ import backend.ALSoftConfig; // Just to make sure DCE doesn't remove this, since
 
 //crash handler stuff
 #if CRASH_HANDLER
-import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import haxe.io.Path;
+import openfl.events.UncaughtErrorEvent;
 #end
 
-import backend.Highscore;
 
 #if linux
 @:cppInclude('./external/gamemode_client.h')
@@ -49,13 +48,12 @@ class Main extends Sprite
 		height: 720, // WINDOW height
 		initialState: TitleState, // initial game state
 		zoom: -1.0, // game state bounds
-		framerate: 60, // default framerate
+		framerate: 244, // default framerate
 		skipSplash: true, // if the default flixel splash screen should be skipped
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
 	public static var fpsVar:FPSCounter;
-
 	public static var isFirst = true;
 
 	public static var skipModsScreen = false;

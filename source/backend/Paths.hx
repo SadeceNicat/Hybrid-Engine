@@ -156,7 +156,6 @@ class Paths
 
 	inline static public function music(key:String, ?modsAllowed:Bool = true,?ignoreFolder:Bool=false):Sound {
 		if (ignoreFolder == true) {
-			trace(returnSound(key, modsAllowed));
 			return returnSound(key, modsAllowed);
 		}
 		return returnSound('music/$key', modsAllowed);
@@ -279,7 +278,6 @@ class Paths
 				return true;
 		}
 		#end
-		trace(getPath("File exists: " + key, type, parentFolder, false));
 		return (OpenFlAssets.exists(getPath(key, type, parentFolder, false)));
 	}
 
@@ -340,7 +338,6 @@ class Paths
 
 		var xml:String = modsXml(key);
 		if(FileSystem.exists(xml)) xmlExists = true;
-
 		return FlxAtlasFrames.fromSparrow(imageLoaded, (xmlExists ? File.getContent(xml) : getPath(Language.getFileTranslation('images/$key') + '.xml', TEXT, parentFolder)));
 		#else
 		return FlxAtlasFrames.fromSparrow(imageLoaded, getPath(Language.getFileTranslation('images/$key') + '.xml', TEXT, parentFolder));

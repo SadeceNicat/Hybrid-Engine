@@ -2,16 +2,13 @@ package objects;
 
 import haxe.Json;
 import openfl.utils.Assets;
+import backend.Config;
 
 enum Alignment
 {
 	LEFT;
 	CENTERED;
 	RIGHT;
-}
-
-typedef PauseConf = {
-	var isCenter:Bool;
 }
 
 class Alphabet extends FlxSpriteGroup
@@ -38,31 +35,13 @@ class Alphabet extends FlxSpriteGroup
 
 
 	function loadConf()
-		{
-			if(Paths.fileExists('config/pause.json', TEXT))
-			{
-				var titleRaw:String = Paths.getTextFromFile('config/pause.json');
-				// trace(titleRaw);
-				
-				if(titleRaw != null && titleRaw.length > 0)
-				{
-					try
-					{
-						var titleJSON:PauseConf = tjson.TJSON.parse(titleRaw);
+	{
+		var pauseJSON:Dynamic = Config.getConfig("pause");
 
-						isCentered = titleJSON.isCenter;
-	
-					}
-					catch(e:haxe.Exception)
-					{
-						trace('[WARN] Title JSON might broken, ignoring issue...\n${e.details()}');
-					}
-				}
-				else trace('[WARN] No Title JSON detected, using default values.');
-			} else {
-			trace("This JSON does not exist.");
-			}
+		if (pauseJSON != null) {
+		isCentered = pauseJSON.isCenter;
 		}
+	}
 
 
 	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = true)

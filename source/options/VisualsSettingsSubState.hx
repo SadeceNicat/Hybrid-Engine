@@ -93,6 +93,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeStrum;
 
+		var option:Option = new Option('V-Slice HUD',
+			'If checked, enables the V-Slice HUD.',
+			'vanillaHUD',
+		BOOL);
+		addOption(option);
+
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',
 			'hideHud',

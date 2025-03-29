@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "name": "Girlfriend",
+    "Sprite": "charSelect/characters/gf/GFCharacterSelect",
+    "SpriteType": "sparrow",
+    "Animations": [
+        ["Idle","Idle",0.0,0.0,24,false],
+        ["SlideIn" ,"",0.0,0.0,24,false],
+        ["Deselect", "Deselect",0.0,0.0,24,false],
+        ["Confirm","Confirm",0.0,0.0,24,false]
+    ],
+    "XY": [0,50],
+    "Color": [255,0,50],
+    "iconXYS": [[0,0,2,2],[100,50,2.5,2.5]],
+    "Parent": "bf"
+}

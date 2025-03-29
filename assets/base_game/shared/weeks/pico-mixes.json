@@ -1,0 +1,19 @@
+{
+	"songs": [
+		["Bopeebo (Pico-mix)", "dad", [65, 60, 174],"pico"],
+		["Fresh (Pico-mix)", "dad", [65, 60, 174],"pico"],
+		["Dad Battle (Pico-mix)", "dad", [65, 60, 174],"pico"]
+	],
+
+	"weekCharacters": [],
+	"weekBackground": "",
+
+	"storyName": "PICO Mixes",
+	"weekBefore": "week1",
+	"weekName": "Pico Mixes",
+	"startUnlocked": true,
+
+	"hideStoryMode": true,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

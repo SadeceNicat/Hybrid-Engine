@@ -8,6 +8,7 @@ import flixel.graphics.frames.FlxFrame;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
 import haxe.Json;
+import backend.Config;
 
 import backend.WeekData;
 import backend.Highscore;
@@ -30,11 +31,6 @@ import psychlua.HScript;
 import hxgamejolt.GameJolt;
 #end
 
-typedef MainConf = {
-	var Transition:Bool;
-	var TransitionType:String;
-}
-
 typedef TitleData =
 {
 	var titlex:Float;
@@ -50,20 +46,6 @@ typedef TitleData =
 	@:optional var dance_left:Array<Int>;
 	@:optional var dance_right:Array<Int>;
 	@:optional var idle:Bool;
-}
-
-typedef TitleConfig = {
-	var StartType:String;
-	var Where:String;
-}
-
-typedef FreeplayConf = {
-	var isCentered:Bool;
-	var isIconsEnabled:Bool;
-}
-
-typedef ConfigMain = {
-	var Freeplay:FreeplayConf;
 }
 
 class TitleState extends MusicBeatState
@@ -108,17 +90,13 @@ class TitleState extends MusicBeatState
 	var playerKey:String;
 	var autoLogin:Bool = false;
 
-
-
-
-
+	function onLoad(obj:Dynamic,objName:String) {
+		add(obj);
+		callOnHScript("onLoad",[objName,obj]);
+	}
 
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
-	#end
-
-	#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	private var luaDebugGroup:FlxTypedGroup<psychlua.DebugLuaText>;
 	#end
 
 	public function callOnHScript(funcToCall:String, args:Array<Dynamic> = null) {
@@ -134,26 +112,9 @@ class TitleState extends MusicBeatState
 	public function initHScript(file:String)
 	{
 		var newScript:HScript = null;
-		try
-		{
-			newScript = new HScript(null, file);
-			newScript.executeFunction('onCreate');
-			trace('initialized hscript interp successfully: $file');
-			hscriptArray.push(newScript);
-		}
-		catch(e:Dynamic)
-		{
-			addTextToDebug('ERROR ON LOADING ($file) - $e', FlxColor.RED);
-			var newScript:HScript = cast (Iris.instances.get(file), HScript);
-			if(newScript != null)
-				newScript.destroy();
-		}
+		try { newScript = new HScript(null, file); newScript.executeFunction('onCreate'); hscriptArray.push(newScript); trace('initialized hscript interp successfully: $file'); }
+		catch(e:Dynamic) { var newScript:HScript = cast (Iris.instances.get(file), HScript); if(newScript != null) {newScript.destroy();} }
 	}
-
-	#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	public function addTextToDebug(text:String, color:FlxColor) {
-	}
-	#end
 
 	#if GAMEJOLT_ALLOWED
 	function isGameJolt() {
@@ -208,6 +169,8 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+		GameJolt.addScore(ClientPrefs.data.gameJoltUsername,ClientPrefs.data.gameJoltToken,"","12343",0);
+		// MusicBeatState.switchState(new StatsState());
 	}
 	#end
 
@@ -216,6 +179,8 @@ class TitleState extends MusicBeatState
 		Paths.clearStoredMemory();
 		super.create();
 		Paths.clearUnusedMemory();
+
+		FlxG.save.data.curChar = "bf";
 
 		Main.isFirst = true;
 
@@ -241,7 +206,7 @@ class TitleState extends MusicBeatState
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
-				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				var curVersion:String = MainMenuState.hybridEngineVersion.trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
 					trace('versions arent matching!');
@@ -308,9 +273,7 @@ class TitleState extends MusicBeatState
 		#end
 		Mods.loadTopMod();
 			
-		loadMainConfig();
-		loadConf();
-		loadMainConf();
+		loadTransitionSettings(); loadStartType(); loadConfig();
 		loadJsonData();
 
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
@@ -345,7 +308,6 @@ class TitleState extends MusicBeatState
 					initHScript(folder + file);
 				#end
 			}
-
 
 
 		logoBl = new FlxSprite(logoPosition.x, logoPosition.y);
@@ -422,16 +384,11 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.data.antialiasing;
 
-		add(gfDance);
-		callOnHScript("onLoad",["gfDance",gfDance]);
-		add(logoBl); //FNF Logo
-		callOnHScript("onLoad",["logoBl",logoBl]);
-		add(titleText); //"Press Enter to Begin" text
-		callOnHScript("onLoad",["titleText",titleText]);
-		add(credGroup);
-		callOnHScript("onLoad",["credGroup",credGroup]);
-		add(ngSpr);
-		callOnHScript("onLoad",["ngSpr",ngSpr]);
+		onLoad(gfDance,"gfDance");
+		onLoad(logoBl,"logoBl");
+		onLoad(titleText,"titleText");
+		onLoad(credGroup,"credGroup");
+		onLoad(ngSpr,"ngSpr");
 
 		if (initialized)
 			skipIntro();
@@ -482,7 +439,7 @@ class TitleState extends MusicBeatState
 					{
 						var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image(titleJSON.backgroundSprite));
 						bg.antialiasing = ClientPrefs.data.antialiasing;
-						add(bg);
+						onLoad(bg,"bg");
 						callOnHScript("onLoad",["bg",bg]);
 					}
 				}
@@ -496,113 +453,48 @@ class TitleState extends MusicBeatState
 		//else trace('[WARN] No Title JSON detected, using default values.');
 	}
 
-	function loadConf()
+	function loadStartType()
 	{
-		if(Paths.fileExists('config/title.json', TEXT))
-		{
-			var titleRaw:String = Paths.getTextFromFile('config/title.json');
-			trace(titleRaw);
-			if(titleRaw != null && titleRaw.length > 0)
-			{
-				try
-				{
-					var titleJSON:TitleConfig = tjson.TJSON.parse(titleRaw);
-					
-					if (titleJSON.StartType == "Normal") {
-						FlxG.save.data.menuSong = false;
-						trace(titleRaw);
-						trace("Normal");
-						isNormal = true;
-						Main.skipModsScreen = true;
-					} else if (titleJSON.StartType == "Song") {
-						trace("Song");
-						trace(titleJSON);
-						FlxG.save.data.menuSong = true;
-						if (FlxG.save.data.isFirst == true) {
-							FlxG.save.data.isFirst = false;
-							Main.skipModsScreen = false;
-						}
-
-					} else {
-						Main.skipModsScreen = true;
-						FlxG.save.data.menuSong = false;
-						trace(titleRaw);
-						trace("Normal Else");
-						isNormal = true;
-					}
-
-				}
-				catch(e:haxe.Exception)
-				{
-					trace('[WARN] Title JSON might broken, ignoring issue...\n${e.details()}');
-				}
-			}
-			else trace('[WARN] No Title JSON detected, using default values.');
-		} else {
-			trace("json not exist");
+		var title:Dynamic = Config.getConfig("title");
+		var startType:Dynamic = title.StartType;
+		
+		if (startType == "Normal") {
+			trace("Normal");
+			FlxG.save.data.menuSong = false;
+			isNormal = true;
+			Main.skipModsScreen = true;
+		} else if (startType == "Song") {
+			trace("Song");
+			FlxG.save.data.menuSong = true;
+		if (FlxG.save.data.isFirst == true) {
+			FlxG.save.data.isFirst = false;
+			Main.skipModsScreen = false;
 		}
+		} else {
+			trace("Normal Else");
+			Main.skipModsScreen = true;
+			FlxG.save.data.menuSong = false;
+			isNormal = true;
+		}
+		
 	}
 
-	function loadMainConf()
+	function loadConfig()
 	{
-		if(Paths.fileExists('config/config.json', TEXT))
-		{
-			var titleRaw:String = Paths.getTextFromFile('config/config.json');
-			trace(titleRaw);	
-			if(titleRaw != null && titleRaw.length > 0)
-			{
-				try
-				{
-					var titleJSON:ConfigMain = tjson.TJSON.parse(titleRaw);
+		var mainJSON:Dynamic = Config.getConfig("config");
 
-					trace(titleJSON);
-					FlxG.save.data.freeplayCenter = titleJSON.Freeplay.isCentered;
-					FlxG.save.data.freeplayIcon = titleJSON.Freeplay.isIconsEnabled;
-					
-				}
-				catch(e:haxe.Exception)
-				{
-					trace('[WARN] Title JSON might broken, ignoring issue...\n${e.details()}');
-				}
-			}
-			else trace('[WARN] No Title JSON detected, using default values.');
-		} else {
-			trace("json not exist");
-		}
+		trace(mainJSON);
+		FlxG.save.data.freeplayCenter = mainJSON.Freeplay.isCentered;
+		FlxG.save.data.freeplayIcon = mainJSON.Freeplay.isIconsEnabled;
+		FlxG.save.data.hideFNFSongs = mainJSON.Freeplay.hideFNFSongs;
 	}
 
-	function loadMainConfig()
+	function loadTransitionSettings()
 	{
-		if(Paths.fileExists('config/menu.json', TEXT))
-		{
-			var titleRaw:String = Paths.getTextFromFile('config/main.json');
-			if(titleRaw != null && titleRaw.length > 0)
-			{
-				try
-				{
-					var jsonData:MainConf = tjson.TJSON.parse(titleRaw);
-
-					FlxG.save.data.TransitionType = "Default";
-
-					if (jsonData.Transition == true) {
-						FlxG.save.data.isTransition = true;
-						if (jsonData.TransitionType == "Sticker") {
-							FlxG.save.data.TransitionType = "Sticker";
-							trace("Sticker");
-						}
-					} else {
-						FlxG.save.data.isTransition = false;
-					}
-					trace(FlxG.save.data.isTransition);
-
-				}
-				catch(e:haxe.Exception)
-				{
-					trace('[WARN] JSON might broken, ignoring issue...\n${e.details()}');
-				}
-			}
-			else trace('[WARN] No JSON detected, using default values.');
-		}
+		var hasTransition:Dynamic = Config.getConfig("main").Transition;
+		var transitionType:Dynamic = Config.getConfig("main").TransitionType;
+		if (hasTransition == null) { FlxG.save.data.isTransition = true; } else { FlxG.save.data.isTransition = hasTransition; }
+		if (hasTransition == null) { FlxG.save.data.TransitionType = "Default"; } else { FlxG.save.data.TransitionType = transitionType; }
 	}
 
 	function easterEggData()

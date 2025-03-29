@@ -1,0 +1,19 @@
+{
+	"iconXYS": [
+		[0, 0, 2, 2],
+		[100, 50, 2.5, 2.5]
+	],
+	"Color": [95, 192, 255],
+	"SpriteType": "sparrow",
+	"Sprite": "charSelect/characters/bf/BFCharacterSelect",
+	"XY": [0, 0],
+	"Parent": "gf",
+	"name": "Boyfriend",
+	"Animations": [
+		["Idle", "bf cs idle", 0, 0, 24, false],
+		["SlideIn", "bf slide in", 45, -6, 24, false],
+		["Deselect", "bf cs deselect", -2, -8, 24, false],
+		["Confirm", "bf cs confirm", -2, -5, 24, false]
+	],
+	"version": "1.0.0"
+}

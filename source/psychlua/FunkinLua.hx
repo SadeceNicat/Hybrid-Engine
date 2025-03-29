@@ -14,6 +14,7 @@ import flixel.FlxState;
 import lime.system.Clipboard;
 import states.editors.content.PsychJsonPrinter;
 import flixel.util.FlxSpriteUtil;
+import lime.ui.Haptic;
 
 
 #if (!flash && sys)
@@ -88,7 +89,7 @@ class FunkinLua {
 		set('Function_Continue', LuaUtils.Function_Continue);
 		set('luaDebugMode', false);
 		set('luaDeprecatedWarnings', true);
-		set('version', MainMenuState.psychEngineVersion.trim());
+		set('version', MainMenuState.hybridEngineVersion.trim());
 		set('modFolder', this.modFolder);
 
 		// Song/Week shit
@@ -212,7 +213,6 @@ class FunkinLua {
 		// build target (windows, mac, linux, etc.)
 		set('buildTarget', LuaUtils.getBuildTarget());
 
-		//
 		Lua_helper.add_callback(lua, "getRunningScripts", function() {
 			var runningScripts:Array<String> = [];
 			for (script in game.luaArray)
@@ -270,6 +270,7 @@ class FunkinLua {
 
 			return null;
 		});
+
 		Lua_helper.add_callback(lua, "isRunning", function(scriptFile:String) {
 			var luaPath:String = findScript(scriptFile);
 			if(luaPath != null)
@@ -298,6 +299,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getVar", function(varName:String) {
 			return MusicBeatState.getVariables().get(varName);
 		});
+
 		Lua_helper.add_callback(lua,"setClipboard",function (text:String){
 			Clipboard.text = text;
 		});
@@ -1626,7 +1628,13 @@ class FunkinLua {
 		// Hybrid Engine
 
 		Lua_helper.add_callback(lua, "mouseOverlaps", function(tag:String, camera:String="camHud") { // SadeceNicat
-			return FlxG.mouse.overlaps(game.getLuaObject(tag),LuaUtils.cameraFromString(camera));
+			var obj = game.getLuaObject(tag);
+
+			if (obj == null) {
+				var split:Array<String> = tag.split('.');
+				obj = LuaUtils.getObjectDirectly(split[0]);
+			}
+			return FlxG.mouse.overlaps(obj,LuaUtils.cameraFromString(camera));
 		});
 
 		Lua_helper.add_callback(lua, "getUsername", function() { // SadeceNicat
@@ -1643,17 +1651,8 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "fetchRemote", function(tag,url) { // SadeceNicat
 			var http = new haxe.Http(url);
 
-			http.onData = function (data:String)
-			{
-				//return data;
-				game.callOnLuas('onFetchCompleted', [tag,data]);
-			}
-
-			http.onError = function (error) {
-				//return error;
-				game.callOnLuas('onFetchCompleted', [tag,"ERROR"]);
-			}
-
+			http.onData = function (data:String) { game.callOnLuas('onFetchCompleted', [tag,data]); }
+			http.onError = function (error) { game.callOnLuas('onFetchCompleted', [tag,"ERROR"]); }
 			http.request();
 		});
 
@@ -1674,7 +1673,6 @@ class FunkinLua {
 			luaTrace("getModSetting: Mods are disabled in this build!", false, false, FlxColor.RED);
 			#end
 		});
-		//
 
 		Lua_helper.add_callback(lua, "debugPrint", function(text:Dynamic = '', color:String = 'WHITE') PlayState.instance.addTextToDebug(text, CoolUtil.colorFromString(color)));
 

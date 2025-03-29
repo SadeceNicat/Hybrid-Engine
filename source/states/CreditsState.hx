@@ -1,6 +1,11 @@
 package states;
 
 import objects.AttachedSprite;
+#if HSCRIPT_ALLOWED
+import psychlua.HScript;
+import crowplexus.iris.Iris;
+#end
+import states.modding.HScriptStuffs;
 
 class CreditsState extends MusicBeatState
 {
@@ -14,11 +19,89 @@ class CreditsState extends MusicBeatState
 	var descText:FlxText;
 	var intendedColor:FlxColor;
 	var descBox:AttachedSprite;
+	var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+		["Hybrid Engine Team"],
+		["SadeceNicat",		"sadecenicat",		"Main Programmer and Head of Hybrid Engine",					"https://sadecenicat.com",	"4B8EFF"],
+		["MolShuggleBeef",		"akif",		"Programmer",					"https://x.com/DemonMol",	"FCA460"],
+		["Shinveritt",		"furi",		"Main Menu Artist",					"https://x.com/FuriShine",	"FCEC60"],
+		["ErennP",		"erennp",		"Hybrid Engine Logo",					"https://x.com/erennp1237",	"FF9A25"],
+		["Psych Engine Team"],
+		["Shadow Mario",		"shadowmario",		"Main Programmer and Head of Psych Engine",					"https://ko-fi.com/shadowmario",	"444444"],
+		["Riveren",				"riveren",			"Main Artist/Animator of Psych Engine",						"https://x.com/riverennn",			"14967B"],
+		[""],
+		["Former Psych Devs"],
+		["bb-panzu",			"bb",				"Ex-Programmer of Psych Engine",							"https://x.com/bbsub3",				"3E813A"],
+		[""],
+		["Engine Contributors"],
+		["BiroxSt",			"face",		"Hybrid Engine LOGO",				"https://x.com/biroxisdumb",	"E83D98"],
+		["Cabby the Cat",			"cat",		"Hold Confirm",				"https://x.com/CabbyTheCat",	"E83D98"],
+		["TheZoroForce240",			"face",		"RTX Shader",				"https://gamebanana.com/members/1708748",	"FFFFFF"],
+		["crowplexus",			"crowplexus",		"HScript Iris, Input System v3, and Other PRs",				"https://github.com/crowplexus",	"CFCFCF"],
+		["Kamizeta",			"kamizeta",			"Creator of Pessy, Psych Engine's mascot.",				"https://www.instagram.com/cewweey/",	"D21C11"],
+		["MaxNeton",			"maxneton",			"Loading Screen Easter Egg Artist/Animator.",	"https://bsky.app/profile/maxneton.bsky.social","3C2E4E"],
+		["Keoiki",				"keoiki",			"Note Splash Animations and Latin Alphabet",				"https://x.com/Keoiki_",			"D2D2D2"],
+		["SqirraRNG",			"sqirra",			"Crash Handler and Base code for\nChart Editor's Waveform",	"https://	x.com/gedehari",			"E1843A"],
+		["EliteMasterEric",		"mastereric",		"Runtime Shaders support and Other PRs",					"https://x.com/EliteMasterEric",	"FFBD40"],
+		["MAJigsaw77",			"majigsaw",			".MP4 Video Loader Library (hxvlc)",						"https://x.com/MAJigsaw77",			"5F5F5F"],
+		["Tahir Toprak Karabekiroglu",	"tahir",	"Note Splash Editor and Other PRs",							"https://x.com/TahirKarabekir",		"A04397"],
+		["iFlicky",				"flicky",			"Composer of Psync and Tea Time\nAnd some sound effects",	"https://x.com/flicky_i",			"9E29CF"],
+		["KadeDev",				"kade",				"Fixed some issues on Chart Editor and Other PRs",			"https://x.com/kade0912",			"64A250"],
+		["superpowers04",		"superpowers04",	"LUA JIT Fork",												"https://x.com/superpowers04",		"B957ED"],
+		["CheemsAndFriends",	"cheems",			"Creator of FlxAnimate",									"https://x.com/CheemsnFriendos",	"E1E1E1"],
+		[""],
+		["Funkin' Crew"],
+		["ninjamuffin99",		"ninjamuffin99",	"Programmer of Friday Night Funkin'",						"https://x.com/ninja_muffin99",		"CF2D2D"],
+		["PhantomArcade",		"phantomarcade",	"Animator of Friday Night Funkin'",							"https://x.com/PhantomArcade3K",	"FADC45"],
+		["evilsk8r",			"evilsk8r",			"Artist of Friday Night Funkin'",							"https://x.com/evilsk8r",			"5ABD4B"],
+		["kawaisprite",			"kawaisprite",		"Composer of Friday Night Funkin'",							"https://x.com/kawaisprite",		"378FC7"],
+		[""],
+		["Psych Engine Discord"],
+		["Join the Psych Ward!", "discord", "", "https://discord.gg/2ka77eMXDv", "5165F6"]
+	];
 
 	var offsetThing:Float = -75;
 
+	function onLoad(obj:Dynamic,objName:String) {
+		add(obj);
+		callOnHScript("onLoad",[objName,obj]);
+	}
+
+	#if HSCRIPT_ALLOWED
+	public var hscriptArray:Array<HScript> = [];
+	#end
+	
+	function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) { HScriptStuffs.triggerEvent(eventName,eventValue,eventValue2); }
+
+	public function callOnHScript(funcToCall:String, args:Array<Dynamic> = null) {
+		#if HSCRIPT_ALLOWED
+		for (script in hscriptArray)
+			if(script != null)
+			{
+				script.executeFunction(funcToCall,args);
+			}
+		#end
+	}
+
+	public function initHScript(file:String)
+	{
+		var newScript:HScript = null;
+		try { newScript = new HScript(null, file); newScript.executeFunction('onCreate'); hscriptArray.push(newScript); trace('initialized hscript interp successfully: $file'); }
+		catch(e:Dynamic) { var newScript:HScript = cast (Iris.instances.get(file), HScript); if(newScript != null) {newScript.destroy();} }
+	}
+
 	override function create()
 	{
+		
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/CreditsState/'))
+			for (file in FileSystem.readDirectory(folder))
+			{
+				FlxG.save.data.menuSong = false;
+				if (FlxG.save.data.isFirst == true) {
+					FlxG.save.data.isFirst = false;
+					Main.skipModsScreen = false;
+				}
+			}
+
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -27,55 +110,15 @@ class CreditsState extends MusicBeatState
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		add(bg);
+		onLoad(bg,"bg");
 		bg.screenCenter();
 		
 		grpOptions = new FlxTypedGroup<Alphabet>();
-		add(grpOptions);
+		onLoad(grpOptions,"grpOptions");
 
 		#if MODS_ALLOWED
 		for (mod in Mods.parseList().enabled) pushModCreditsToList(mod);
 		#end
-
-		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-			["Hybrid Engine Team"],
-			["SadeceNicat",		"sadecenicat",		"Main Programmer and Head of Hybrid Engine",					"https://sadecenicat.com",	"4B8EFF"],
-			["MolShuggleBeef",		"akif",		"Programmer",					"https://x.com/DemonMol",	"FCA460"],
-			["Shinveritt",		"furi",		"Main Menu Artist",					"https://x.com/FuriShine",	"FCEC60"],
-			["ErennP",		"erennp",		"Hybrid Engine Logo",					"https://x.com/erennp1237",	"FF9A25"],
-			["Psych Engine Team"],
-			["Shadow Mario",		"shadowmario",		"Main Programmer and Head of Psych Engine",					"https://ko-fi.com/shadowmario",	"444444"],
-			["Riveren",				"riveren",			"Main Artist/Animator of Psych Engine",						"https://x.com/riverennn",			"14967B"],
-			[""],
-			["Former Psych Devs"],
-			["bb-panzu",			"bb",				"Ex-Programmer of Psych Engine",							"https://x.com/bbsub3",				"3E813A"],
-			[""],
-			["Engine Contributors"],
-			["BiroxSt",			"face",		"Hybrid Engine LOGO",				"https://x.com/biroxisdumb",	"E83D98"],
-			["Cabby the Cat",			"cat",		"Hold Confirm",				"https://x.com/CabbyTheCat",	"E83D98"],
-			["TheZoroForce240",			"face",		"RTX Shader",				"https://gamebanana.com/members/1708748",	"FFFFFF"],
-			["crowplexus",			"crowplexus",		"HScript Iris, Input System v3, and Other PRs",				"https://github.com/crowplexus",	"CFCFCF"],
-			["Kamizeta",			"kamizeta",			"Creator of Pessy, Psych Engine's mascot.",				"https://www.instagram.com/cewweey/",	"D21C11"],
-			["MaxNeton",			"maxneton",			"Loading Screen Easter Egg Artist/Animator.",	"https://bsky.app/profile/maxneton.bsky.social","3C2E4E"],
-			["Keoiki",				"keoiki",			"Note Splash Animations and Latin Alphabet",				"https://x.com/Keoiki_",			"D2D2D2"],
-			["SqirraRNG",			"sqirra",			"Crash Handler and Base code for\nChart Editor's Waveform",	"https://	x.com/gedehari",			"E1843A"],
-			["EliteMasterEric",		"mastereric",		"Runtime Shaders support and Other PRs",					"https://x.com/EliteMasterEric",	"FFBD40"],
-			["MAJigsaw77",			"majigsaw",			".MP4 Video Loader Library (hxvlc)",						"https://x.com/MAJigsaw77",			"5F5F5F"],
-			["Tahir Toprak Karabekiroglu",	"tahir",	"Note Splash Editor and Other PRs",							"https://x.com/TahirKarabekir",		"A04397"],
-			["iFlicky",				"flicky",			"Composer of Psync and Tea Time\nAnd some sound effects",	"https://x.com/flicky_i",			"9E29CF"],
-			["KadeDev",				"kade",				"Fixed some issues on Chart Editor and Other PRs",			"https://x.com/kade0912",			"64A250"],
-			["superpowers04",		"superpowers04",	"LUA JIT Fork",												"https://x.com/superpowers04",		"B957ED"],
-			["CheemsAndFriends",	"cheems",			"Creator of FlxAnimate",									"https://x.com/CheemsnFriendos",	"E1E1E1"],
-			[""],
-			["Funkin' Crew"],
-			["ninjamuffin99",		"ninjamuffin99",	"Programmer of Friday Night Funkin'",						"https://x.com/ninja_muffin99",		"CF2D2D"],
-			["PhantomArcade",		"phantomarcade",	"Animator of Friday Night Funkin'",							"https://x.com/PhantomArcade3K",	"FADC45"],
-			["evilsk8r",			"evilsk8r",			"Artist of Friday Night Funkin'",							"https://x.com/evilsk8r",			"5ABD4B"],
-			["kawaisprite",			"kawaisprite",		"Composer of Friday Night Funkin'",							"https://x.com/kawaisprite",		"378FC7"],
-			[""],
-			["Psych Engine Discord"],
-			["Join the Psych Ward!", "discord", "", "https://discord.gg/2ka77eMXDv", "5165F6"]
-		];
 		
 		for(i in defaultList)
 			creditsStuff.push(i);
@@ -89,6 +132,7 @@ class CreditsState extends MusicBeatState
 			optionText.changeX = false;
 			optionText.snapToPosition();
 			grpOptions.add(optionText);
+			callOnHScript("onCreditsAdded",[optionText]);
 
 			if(isSelectable)
 			{
@@ -110,7 +154,7 @@ class CreditsState extends MusicBeatState
 	
 				// using a FlxGroup is too much fuss!
 				iconArray.push(icon);
-				add(icon);
+				onLoad(icon,"icon");
 				Mods.currentModDirectory = '';
 
 				if(curSelected == -1) curSelected = i;
@@ -124,14 +168,14 @@ class CreditsState extends MusicBeatState
 		descBox.yAdd = -10;
 		descBox.alphaMult = 0.6;
 		descBox.alpha = 0.6;
-		add(descBox);
+		onLoad(descBox,"descBox");
 
 		descText = new FlxText(50, FlxG.height + offsetThing - 25, 1180, "", 32);
 		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 		descText.scrollFactor.set();
 		//descText.borderSize = 2.4;
 		descBox.sprTracker = descText;
-		add(descText);
+		onLoad(descText,"descText");
 
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
@@ -183,7 +227,9 @@ class CreditsState extends MusicBeatState
 			}
 
 			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
+				callOnHScript("onAccept",[creditsStuff[curSelected]]);
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+				callOnHScript("onAcceptPost",[creditsStuff[curSelected]]);
 			}
 			if (controls.BACK)
 			{
@@ -222,6 +268,7 @@ class CreditsState extends MusicBeatState
 			curSelected = FlxMath.wrap(curSelected + change, 0, creditsStuff.length - 1);
 		}
 		while(unselectableCheck(curSelected));
+		callOnHScript("onScrollMenu",[curSelected]);
 
 		var newColor:FlxColor = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		//trace('The BG color is: $newColor');
@@ -256,6 +303,8 @@ class CreditsState extends MusicBeatState
 			descBox.updateHitbox();
 		}
 		else descText.visible = descBox.visible = false;
+
+		callOnHScript("onScrollMenuPost",[curSelected]);
 	}
 
 	#if MODS_ALLOWED

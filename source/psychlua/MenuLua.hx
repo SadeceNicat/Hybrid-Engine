@@ -85,7 +85,7 @@ class MenuLua {
 		set('Function_Continue', LuaUtils.Function_Continue);
 		set('luaDebugMode', false);
 		set('luaDeprecatedWarnings', true);
-		set('version', MainMenuState.psychEngineVersion.trim());
+		set('version', MainMenuState.hybridEngineVersion.trim());
 		set('modFolder', this.modFolder);
 
 		// Screen stuff

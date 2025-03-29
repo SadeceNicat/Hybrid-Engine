@@ -5,6 +5,7 @@ import crowplexus.iris.Iris;
 import backend.Song;
 import backend.Highscore;
 import options.OptionsState;
+import states.modding.HScriptStuffs;
 
 class CustomState extends MusicBeatState {
 
@@ -14,10 +15,6 @@ class CustomState extends MusicBeatState {
     
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
-	#end
-
-	#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	private var luaDebugGroup:FlxTypedGroup<psychlua.DebugLuaText>;
 	#end
 
     public function callOnHScript(funcToCall:String, args:Array<Dynamic> = null) {
@@ -76,6 +73,7 @@ class CustomState extends MusicBeatState {
 
     override function update(elapsed:Float) {
         super.update(elapsed);
+		callOnHScript("onUpdate",[elapsed]);
 
         if (isScriptFinded == false) {
             if (controls.BACK)
@@ -83,52 +81,11 @@ class CustomState extends MusicBeatState {
                 triggerEvent("ChangeState","mainmenu");
             }
         }
+		callOnHScript("onUpdatePost",[elapsed]);
     }
 
     function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) {
-		switch (eventName) {
-			case "ChangeState" :
-				if (eventValue == "storymode") {
-					MusicBeatState.switchState(new StoryMenuState());
-				}
-				else if (eventValue == "freeplay") {
-					MusicBeatState.switchState(new FreeplayState());
-				}
-				else if (eventValue == "credits") {
-					MusicBeatState.switchState(new CreditsState());
-				}
-				else if (eventValue == "options") {
-					MusicBeatState.switchState(new OptionsState());
-				}
-				else if (eventValue == "achievement") {
-					MusicBeatState.switchState(new AchievementsMenuState());
-				}
-				else if (eventValue == "mods") {
-					MusicBeatState.switchState(new ModsMenuState());
-                } else if (eventValue == "mainmenu") {
-                    MusicBeatState.switchState(new MainMenuState());
-				} else {
-					FlxG.save.data.currentState = eventValue;
-					MusicBeatState.switchState(new CustomState());
-				}
-			case "LoadSong" :
-				var songLowercase:String = Paths.formatToSongPath(eventValue);
-				var poop:String = Highscore.formatSong(songLowercase, eventValue2);
-	
-				try
-				{
-					Song.loadFromJson(poop, songLowercase);
-					PlayState.isStoryMode = false;
-					PlayState.storyDifficulty = eventValue2;
-				}
-
-				if (FlxG.save.data.isTransition == false) {
-					MusicBeatState.switchState(new PlayState());
-				} else {
-                    LoadingState.loadAndSwitchState(new PlayState());
-				}
-			default :
-				trace("Null Value");
-		}
+		HScriptStuffs.triggerEvent(eventName,eventValue,eventValue2);
+		callOnHScript("onEvent",[eventName,eventValue,eventValue2]);
 	}
 }

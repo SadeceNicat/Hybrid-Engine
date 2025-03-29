@@ -12,10 +12,6 @@ class MusicBeatSubstate extends FlxSubState
 	public var hscriptArray:Array<HScript> = [];
 	#end
 
-	#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	private var luaDebugGroup:FlxTypedGroup<psychlua.DebugLuaText>;
-	#end
-
 	public function callOnHScript(funcToCall:String, args:Array<Dynamic> = null) {
 		#if HSCRIPT_ALLOWED
 		for (script in hscriptArray)
@@ -29,26 +25,9 @@ class MusicBeatSubstate extends FlxSubState
 	public function initHScript(file:String)
 	{
 		var newScript:HScript = null;
-		try
-		{
-			newScript = new HScript(null, file);
-			newScript.executeFunction('onCreate');
-			trace('initialized hscript interp successfully: $file');
-			hscriptArray.push(newScript);
-		}
-		catch(e:Dynamic)
-		{
-			addTextToDebug('ERROR ON LOADING ($file) - $e', FlxColor.RED);
-			var newScript:HScript = cast (Iris.instances.get(file), HScript);
-			if(newScript != null)
-				newScript.destroy();
-		}
+		try { newScript = new HScript(null, file); newScript.executeFunction('onCreate'); hscriptArray.push(newScript); trace('initialized hscript interp successfully: $file'); }
+		catch(e:Dynamic) { var newScript:HScript = cast (Iris.instances.get(file), HScript); if(newScript != null) {newScript.destroy();} }
 	}
-
-	#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	public function addTextToDebug(text:String, color:FlxColor) {
-	}
-	#end
 
 	public function new()
 	{
@@ -107,7 +86,6 @@ class MusicBeatSubstate extends FlxSubState
 
 		super.update(elapsed);
 		callOnHScript("onUpdatePost",[elapsed]);
-		
 	}
 
 	private function updateSection():Void

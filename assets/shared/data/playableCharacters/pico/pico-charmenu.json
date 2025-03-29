@@ -1,0 +1,15 @@
+{
+	"version": "1.0.0",
+	"XY": [0, 0],
+	"Sprite": "charSelect/characters/pico/pico",
+	"Parent": "Nene",
+	"Color": [47, 255, 117],
+	"Animations": [
+		["Idle", "pico cs idle", 0, 0, 24, true],
+		["SlideIn", "pico slide in", 45, 0, 24, false],
+		["Deselect", "pico cs deselect", -1, -12, 24, false],
+		["Confirm", "pico cs confirm", 0, -3, 24, false]
+	],
+	"name": "Pico",
+	"SpriteType": "sparrow"
+}

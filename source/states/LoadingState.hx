@@ -249,11 +249,11 @@ class LoadingState extends MusicBeatState
 
 	public static function checkLoaded():Bool
 	{
-		for (key => bitmap in requestedBitmaps)
-		{
-			if (bitmap != null && Paths.cacheBitmap(originalBitmapKeys.get(key), bitmap) != null) trace('finished preloading image $key');
-			else trace('failed to cache image $key');
-		}
+		// for (key => bitmap in requestedBitmaps)
+		// {
+		// 	if (bitmap != null && Paths.cacheBitmap(originalBitmapKeys.get(key), bitmap) != null);
+		// 	else trace('failed to cache image $key');
+		// }
 		requestedBitmaps.clear();
 		originalBitmapKeys.clear();
 		return (loaded == loadMax && initialThreadCompleted);

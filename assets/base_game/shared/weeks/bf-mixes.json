@@ -1,0 +1,17 @@
+{
+	"songs": [
+		["Darnell (BF Mix)", "darnell", [65, 60, 174],"bf"]
+	],
+
+	"weekCharacters": [],
+	"weekBackground": "",
+
+	"storyName": "BF Mixes",
+	"weekBefore": "",
+	"weekName": "Bf Mixes",
+	"startUnlocked": true,
+
+	"hideStoryMode": true,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

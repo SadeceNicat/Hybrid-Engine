@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="pico.png">
+	<!-- Created with Adobe Animate version 24.0.0.305 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="pico cs confirm örnek 10000" x="0" y="0" width="289" height="353" frameX="0" frameY="-2" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10001" x="0" y="0" width="289" height="353" frameX="0" frameY="-2" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10002" x="289" y="0" width="287" height="355" frameX="-1" frameY="0" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10003" x="289" y="0" width="287" height="355" frameX="-1" frameY="0" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10004" x="289" y="0" width="287" height="355" frameX="-1" frameY="0" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10005" x="289" y="0" width="287" height="355" frameX="-1" frameY="0" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs confirm örnek 10006" x="289" y="0" width="287" height="355" frameX="-1" frameY="0" frameWidth="289" frameHeight="355"/>
+	<SubTexture name="pico cs deselect örnek 10000" x="576" y="0" width="288" height="341" frameX="0" frameY="-4" frameWidth="288" frameHeight="345"/>
+	<SubTexture name="pico cs deselect örnek 10001" x="576" y="0" width="288" height="341" frameX="0" frameY="-4" frameWidth="288" frameHeight="345"/>
+	<SubTexture name="pico cs deselect örnek 10002" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10003" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10004" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10005" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10006" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10007" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10008" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10009" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10010" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10011" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10012" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10013" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10014" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10015" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10016" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10017" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10018" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10019" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10020" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10021" x="864" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10022" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs deselect örnek 10023" x="1152" y="0" width="288" height="345"/>
+	<SubTexture name="pico cs idle örnek 10000" x="1440" y="0" width="289" height="352" frameX="0" frameY="-7" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10001" x="1440" y="0" width="289" height="352" frameX="0" frameY="-7" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10002" x="1729" y="0" width="289" height="354" frameX="0" frameY="-4" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10003" x="1729" y="0" width="289" height="354" frameX="0" frameY="-4" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10004" x="0" y="355" width="288" height="357" frameX="-1" frameY="-1" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10005" x="0" y="355" width="288" height="357" frameX="-1" frameY="-1" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10006" x="288" y="355" width="288" height="357" frameX="-1" frameY="-1" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10007" x="288" y="355" width="288" height="357" frameX="-1" frameY="-1" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10008" x="576" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10009" x="576" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10010" x="864" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10011" x="864" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10012" x="864" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10013" x="864" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico cs idle örnek 10014" x="864" y="355" width="288" height="358" frameX="-1" frameY="0" frameWidth="289" frameHeight="359"/>
+	<SubTexture name="pico slide in örnek 10000" x="1152" y="355" width="438" height="357" frameX="-247" frameY="-6" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10001" x="1590" y="355" width="398" height="357" frameX="-111" frameY="-6" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10002" x="0" y="713" width="303" height="359" frameX="0" frameY="-6" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10003" x="0" y="713" width="303" height="359" frameX="0" frameY="-6" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10004" x="303" y="713" width="295" height="365" frameX="-23" frameY="0" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10005" x="303" y="713" width="295" height="365" frameX="-23" frameY="0" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10006" x="598" y="713" width="291" height="354" frameX="-41" frameY="-7" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10007" x="598" y="713" width="291" height="354" frameX="-41" frameY="-7" frameWidth="685" frameHeight="365"/>
+	<SubTexture name="pico slide in örnek 10008" x="889" y="713" width="288" height="358" frameX="-45" frameY="-3" frameWidth="685" frameHeight="365"/>
+</TextureAtlas>

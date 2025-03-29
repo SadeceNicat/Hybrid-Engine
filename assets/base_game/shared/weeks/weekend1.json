@@ -1,9 +1,9 @@
 {
 	"songs": [
-		["Darnell", "darnell", [65, 60, 174]],
-		["Lit Up", "darnell", [65, 60, 174]],
-		["2Hot", "darnell", [65, 60, 174]],
-		["Blazin", "darnell", [65, 60, 174]]
+		["Darnell", "darnell", [65, 60, 174],"pico"],
+		["Lit Up", "darnell", [65, 60, 174],"pico"],
+		["2Hot", "darnell", [65, 60, 174],"pico"],
+		["Blazin", "darnell", [65, 60, 174],"pico"]
 	],
 
 	"weekCharacters": [

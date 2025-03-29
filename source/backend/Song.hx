@@ -155,6 +155,21 @@ class Song
 		return rawData != null ? parseJSON(rawData, jsonInput) : null;
 	}
 
+	public static function getExCharacters(folder:String) {
+		var rawData:String = null;
+		var formattedFolder:String = Paths.formatToSongPath(folder);
+
+		var _charPath = Paths.json('songs/$formattedFolder/characters');
+		#if MODS_ALLOWED
+		if(FileSystem.exists(_charPath))
+			rawData = File.getContent(_charPath);
+		else
+		#end
+			rawData = Assets.getText(_charPath);
+
+		return rawData != null ? Json.parse(rawData) : null;
+	}
+
 	public static function parseJSON(rawData:String, ?nameForError:String = null, ?convertTo:String = 'psych_v1'):SwagSong
 	{
 		var songJson:SwagSong = cast Json.parse(rawData);

@@ -72,9 +72,9 @@ options_visuals: "Görüntü Ayarlari"
 options_graphics: "Grafikler"
 options_language: "Dil"
 
-graphics_menu: "Configurações de Gráficos"
-visuals_menu: "Opções Visuais"
-gameplay_menu: "Configurações de Gameplay"
+graphics_menu: "Grafik Ayarlari"
+visuals_menu: "Gorsel Ayarlari"
+gameplay_menu: "Oynanis Ayarlari"
 
 // Note Colors Menu
 note_colors_tip: "Eski haline çevirmek için RESET tusuna basin."

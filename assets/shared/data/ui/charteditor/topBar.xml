@@ -1,0 +1,32 @@
+<vbox style="padding: 5px;">
+    <hbox>
+        <vbox>
+            <button text="Click Me!" style="font-size: 24px;" />
+            <slider pos="33" />
+            <progress pos="66" />
+            <hbox>
+                <button text="Button" />
+                <button text="Button" />
+                <dropdown selectedIndex="1">
+                    <data>
+                        <item text="Item 1" />
+                        <item text="Item 2" />
+                        <item text="Item 3" />
+                        <item text="Item 4" />
+                    </data>
+                </dropdown>
+            </hbox>
+            <grid columns="3">
+                <button text="Button" />
+                <button text="Button" />
+                <button text="Button" />
+                <button text="Button" />
+                <button text="Button" />
+                <button text="Button" />
+            </grid>
+        </vbox>
+
+        <slider direction="vertical" pos="33" />
+        <progress direction="vertical" pos="66" />
+    </hbox>
+</vbox>

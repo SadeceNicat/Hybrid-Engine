@@ -1,8 +1,8 @@
 {
 	"songs": [
-		["Satin Panties", "mom", [252, 150, 215]],
-		["High", "mom", [252, 150, 215]],
-		["Milf", "mom", [252, 150, 215]]
+		["Satin Panties", "mom", [252, 150, 215],"bf",false],
+		["High", "mom", [252, 150, 215],"bf",false],
+		["Milf", "mom", [252, 150, 215],"bf",true]
 	],
 
 	"difficulties": "easy,normal,hard,erect,nightmare",

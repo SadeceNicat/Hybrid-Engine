@@ -42,7 +42,7 @@ class WeekData {
 
 	public static function createWeekFile():WeekFile {
 		var weekFile:WeekFile = {
-			songs: [["Bopeebo", "face", [146, 113, 253]], ["Fresh", "face", [146, 113, 253]], ["Dad Battle", "face", [146, 113, 253]]],
+			songs: [["Bopeebo", "face", [146, 113, 253]], ["Fresh", "face", [146, 113, 253],"bf",false], ["Dad Battle", "face", [146, 113, 253],"bf",false] ],
 			#if BASE_GAME_FILES
 			weekCharacters: ['dad', 'bf', 'gf'],
 			#else
