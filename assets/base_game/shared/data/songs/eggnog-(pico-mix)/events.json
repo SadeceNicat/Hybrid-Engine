@@ -1,0 +1,347 @@
+{
+	"events": [
+		[
+			0,
+			[
+				["SetCameraBop", "1", "0.8"]
+			]
+		],
+		[
+			3100,
+			[
+				["SetCameraBop", "1", "0.9"]
+			]
+		],
+		[
+			14400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			15900,
+			[
+				["SetCameraBop", "2", "1.2"]
+			]
+		],
+		[
+			16050,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			24000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			25600,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			27200,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			28700,
+			[
+				["SetCameraBop", "1", "1.2"]
+			]
+		],
+		[
+			29054.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			30654.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			32254.7142857143,
+			[
+				["ZoomCamera", "32", "expoOut"]
+			]
+		],
+		[
+			34254.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			36800,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			38400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			40000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			41500,
+			[
+				["SetCameraBop", "4", "1"]
+			]
+		],
+		[
+			41650,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			42454.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			43454.7142857143,
+			[
+				["ZoomCamera", "32", "expoOut"]
+			]
+		],
+		[
+			45654.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			46454.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			47900,
+			[
+				["SetCameraBop", "1", "0.8"]
+			]
+		],
+		[
+			59200,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			59600,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			60000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			60400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			60700,
+			[
+				["SetCameraBop", "2", "1"]
+			]
+		],
+		[
+			65600,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			67250,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			70454.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			72054.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			73500,
+			[
+				["SetCameraBop", "1", "1.2"]
+			]
+		],
+		[
+			73654.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			75254.7142857143,
+			[
+				["ZoomCamera", "32", "expoOut"]
+			]
+		],
+		[
+			76854.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			78454.7142857143,
+			[
+				["ZoomCamera", "32", "expoOut"]
+			]
+		],
+		[
+			80400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			81000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			81600,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			82200,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			82800,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			83200,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			83850,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			84400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			84800,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			85200,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			85600,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			86000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			86300,
+			[
+				["SetCameraBop", "4", "1"]
+			]
+		],
+		[
+			86450,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			90454.7142857143,
+			[
+				["ZoomCamera", "expoOut", "32"]
+			]
+		],
+		[
+			91454.7142857143,
+			[
+				["ZoomCamera", "32", "expoOut"]
+			]
+		],
+		[
+			92000,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			92400,
+			[
+				["ZoomCamera", "expoOut", "16"]
+			]
+		],
+		[
+			92600,
+			[
+				["ZoomCamera", "expoOut", "48"]
+			]
+		],
+		[
+			92800,
+			[
+				["SetCameraBop", "4", "0"]
+			]
+		]
+	],
+	"format": "psych_v1_convert"
+}
