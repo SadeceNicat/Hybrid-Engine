@@ -62,11 +62,11 @@ function onCreatePost()
 
     end 
 
-    if curStage == "stage-erect" then
-      setRTXData("0.29,0.14,0.07,0.12,0.48,0.27,0.1,0.44,0.63,0.42,0.14,0.77,0,17.5");
-    elseif (curStage == "spookyMansionErect") then
-      setRTXData("0,0,0.07,0.7,0,0.08,0.19,0.86,0,0.37,0.28,1,212.4,13.588924257223");
-    end
+    -- if curStage == "stage-erect" then
+    --   setRTXData("0.29,0.14,0.07,0.12,0.48,0.27,0.1,0.44,0.63,0.42,0.14,0.77,0,17.5");
+    -- elseif (curStage == "spookyMansionErect") then
+    --   setRTXData("0,0,0.07,0.7,0,0.08,0.19,0.86,0,0.37,0.28,1,212.4,13.588924257223");
+    -- end
 end
 
 function onEvent(tag, val1, val2)
