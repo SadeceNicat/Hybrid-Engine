@@ -1,0 +1,267 @@
+{
+	"camera_boyfriend": [
+		-270,
+		35
+	],
+	"_editorMeta": {
+		"boyfriend": "bf",
+		"gf": "gf",
+		"dad": "darnell"
+	},
+	"preload": {
+		"images/phillyStreets/phillySmog": 2,
+		"images/phillyStreets/phillySkybox": 2,
+		"images/abot/abotSystem/": 3,
+		"images/phillyStreets/phillyHighwayLights_lightmap": 2,
+		"images/phillyStreets/phillyForeground": 3,
+		"images/abot/": 3,
+		"images/phillyStreets/phillyForegroundCity": 2,
+		"images/abot/systemEyes/": 3,
+		"images/SpraycanPile": 3,
+		"images/phillyStreets/phillyHighwayLights": 3,
+		"images/phillyStreets/phillyCars": 2,
+		"images/phillyStreets/phillyTraffic_lightmap": 2,
+		"images/phillyStreets/phillyTraffic": 2,
+		"images/phillyStreets/phillySkyline": 2,
+		"images/phillyStreets/phillyConstruction": 3,
+		"images/phillyStreets/phillyHighway": 3
+	},
+	"girlfriend": [
+		934,
+		311
+	],
+	"stageUI": "",
+	"boyfriend": [
+		1720,
+		346
+	],
+	"objects": [
+		{
+			"x": -924,
+			"y": -156,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillySkybox",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite4",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0,
+				0
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"x": -366,
+			"y": -266,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillySkyline",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite9",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0,
+				0
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"x": 558,
+			"y": 104,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyForegroundCity",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite5",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0.4,
+				0.45
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"x": 1055,
+			"y": 720,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyCars",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite7",
+			"firstAnimation": null,
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0.95,
+				1
+			],
+			"alpha": 1,
+			"animations": null,
+			"type": "animatedSprite"
+		},
+		{
+			"x": -84,
+			"y": 109,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyHighway",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite6",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0.9,
+				1
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"x": 1462,
+			"y": 16,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyConstruction",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite2",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0.45,
+				0.45
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"x": 1504,
+			"y": 505,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyTraffic",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite8",
+			"firstAnimation": null,
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0.8,
+				1
+			],
+			"alpha": 1,
+			"animations": null,
+			"type": "animatedSprite"
+		},
+		{
+			"x": -654,
+			"y": -550,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/greyGradient",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite3",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				0,
+				0
+			],
+			"alpha": 0.4,
+			"type": "sprite"
+		},
+		{
+			"x": -158,
+			"y": 224,
+			"scale": [
+				1,
+				1
+			],
+			"image": "phillyStreets/erect/phillyForeground",
+			"flipX": false,
+			"filters": 3,
+			"color": "FFFFFF",
+			"angle": 0,
+			"name": "sprite1",
+			"antialiasing": true,
+			"flipY": false,
+			"scroll": [
+				1,
+				1
+			],
+			"alpha": 1,
+			"type": "sprite"
+		},
+		{
+			"type": "gf"
+		},
+		{
+			"type": "dad"
+		},
+		{
+			"type": "boyfriend"
+		}
+	],
+	"camera_girlfriend": [
+		0,
+		0
+	],
+	"defaultZoom": 0.72,
+	"camera_speed": 0.6,
+	"directory": "weekend1",
+	"opponent": [
+		429,
+		366
+	],
+	"camera_opponent": [
+		450,
+		-110
+	],
+	"hide_girlfriend": false
+}

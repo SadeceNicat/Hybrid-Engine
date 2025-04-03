@@ -291,6 +291,7 @@ class PlayState extends MusicBeatState
 		FPSCounter.showFPS();
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
 		if(nextReloadAll)
 		{
 			Paths.clearUnusedMemory();
@@ -543,7 +544,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 
-		var sarkiamk = Paths.formatToSongPath(SONG.song);
 		var buffer;
 		var isAdded:Bool = true;
 		var songParentFolder:String = "";
@@ -552,20 +552,20 @@ class PlayState extends MusicBeatState
 		}
 
 		#if sys
-		if(FileSystem.exists(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"))) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
-		} else if (FileSystem.exists(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices.ogg',SOUND,"songs"))) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
+		if(FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"))) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
+		} else if (FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"))) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
 		}
 		else {
 			isAdded = false;
 			buffer = null;
 		}
 		#else
-		if(OpenFlAssets.exists(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
-		} else if (OpenFlAssets.exists(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$sarkiamk/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
+		if(OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
+		} else if (OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
 		}
 		else {
 			isAdded = false;
@@ -582,7 +582,7 @@ class PlayState extends MusicBeatState
 		waveformSprite.cameras = [camHUD];
 		if(ClientPrefs.data.downScroll) waveformSprite.y = 710;
 
-		buffer = AudioBuffer.fromFile(Paths.getPath('$sarkiamk/Voices-Player.ogg',SOUND,"songs"));
+		buffer = AudioBuffer.fromFile(Paths.getPath('$songName/Voices-Player.ogg',SOUND,"songs"));
 
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);

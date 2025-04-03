@@ -127,6 +127,7 @@
 	<haxelib name="flxanimate" />
 
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED" />
+	<haxelib name="away3d" />
 
 	<!-- <haxelib name="haxeui-core" /> -->
  	<!-- <haxelib name="haxeui-openfl" />     I use this for small things because haxeui-flixel crashes the game. If I have optimization problems I remove it. -->
