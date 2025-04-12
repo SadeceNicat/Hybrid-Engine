@@ -92,8 +92,6 @@
 	<section if="BASE_GAME_FILES">
 		<assets path="assets/base_game" rename="assets" exclude="*.ogg" if="web" />
 		<assets path="assets/base_game" rename="assets" exclude="*.mp3" unless="web" />
-		<haxelib name="grig.audio" if="BASE_GAME_FILES" />
-		<haxelib name="funkin.vis" if="BASE_GAME_FILES" />
 	</section>
 
 	<define name="CHECK_FOR_UPDATES" if="desktop officialBuild" />
@@ -116,18 +114,17 @@
 
 	<haxelib name="flixel" version="5.6.1" />
 	<haxelib name="flixel-addons" version="3.2.2" />
+	<haxelib name="flxanimate" />
 	<haxelib name="tjson" version="1.4.0" />
+	<haxelib name="away3d" />
 
-	<haxelib name="hxgamejolt-api" if="GAMEJOLT_ALLOWED" />
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED" />
 	<haxelib name="hscript-iris" if="HSCRIPT_ALLOWED" version="1.1.0" />
 	<haxelib name="hxdiscord_rpc" version="1.2.4" if="DISCORD_ALLOWED" />
-	<haxelib name="flxanimate" />
-
+	<haxelib name="tjson" version="1.4.0" />
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED" />
-	<haxelib name="away3d" />
 
 	<!-- <haxelib name="haxeui-core" /> -->
  	<!-- <haxelib name="haxeui-openfl" />     I use this for small things because haxeui-flixel crashes the game. If I have optimization problems I remove it. -->

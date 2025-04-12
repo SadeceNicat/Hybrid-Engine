@@ -1627,6 +1627,19 @@ class FunkinLua {
 
 		// Hybrid Engine
 
+		#if funkin.vis
+
+		Lua_helper.add_callback(lua, "initAnalyzer", function(barCount:Int, maxDelta:Float = 0.01, peakHold:Int = 30) {
+			PlayState.instance.initAnalyzer(barCount, maxDelta, peakHold);
+			return true;
+		});
+
+		Lua_helper.add_callback(lua, "getAudioLevels", function(barCount:Int, maxDelta:Float = 0.01, peakHold:Int = 30) {
+			return PlayState.instance.getAudioLevels();
+		});
+
+		#end
+
 		Lua_helper.add_callback(lua, "mouseOverlaps", function(tag:String, camera:String="camHud") { // SadeceNicat
 			var obj = game.getLuaObject(tag);
 

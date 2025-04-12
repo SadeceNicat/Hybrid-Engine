@@ -285,6 +285,27 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
+	#if funkin.vis
+	public var audioAnalyzer:funkin.vis.dsp.SpectralAnalyzer;
+
+	public function initAnalyzer(barCount:Int, maxDelta:Float = 0.01, peakHold:Int = 30) {
+		@:privateAccess
+		if (FlxG.sound.music == null || FlxG.sound.music._channel == null || FlxG.sound.music._channel.__audioSource == null) return;
+
+		@:privateAccess
+		audioAnalyzer = new funkin.vis.dsp.SpectralAnalyzer(FlxG.sound.music._channel.__audioSource, barCount, maxDelta, peakHold);
+
+		#if desktop
+		audioAnalyzer.fftN = 256;
+		#end
+	}
+
+	public function getAudioLevels() {
+		var levels = audioAnalyzer.getLevels();
+		return [for (i in levels) i.value];
+	}
+	#end
+
 	public static var nextReloadAll:Bool = false;
 	override public function create()
 	{
