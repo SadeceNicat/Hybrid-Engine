@@ -112,7 +112,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 						sticker.angle = FlxG.random.int(-10,10);
 						sticker.scrollFactor.set(0,0);
 						stickers.push([sticker.x, sticker.y, "stickers/"+stickerVariants[randomstckr],sticker.angle]);
-						FlxTween.tween(sticker.scale, {x: 0.95, y: 0.95}, 0.65, {ease: FlxEase.backOut});
+						FlxTween.tween(sticker.scale, {x: 0.95, y: 0.95}, 0.35, {ease: FlxEase.backOut});
 						
 						var randomsound = Math.ceil(Math.random() * 8);
 						if (randomsound <= 0) randomsound = 1;
