@@ -440,13 +440,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		add(movingNotes);
 		callOnHScript("onLoad",["movingNotes",movingNotes]);
 
-
-		lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("editors/chartEditor/lilStage"));
-		lilStage.scrollFactor.set();
-		add(lilStage);
-		callOnHScript("onLoad",["lilStage",lilStage]);
-
-
 		eventLockOverlay = new FlxSprite(gridBg.x, 0).makeGraphic(1, 1, FlxColor.BLACK);
 		eventLockOverlay.alpha = 0.6;
 		eventLockOverlay.visible = false;

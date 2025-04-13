@@ -26,7 +26,7 @@
 	<define name="DISCORD_ALLOWED" />
 	<define name="TRANSLATIONS_ALLOWED" />
 	<define name="IRIS_DEBUG" />
-	<define name="GAMEJOLT_ALLOWED" />
+	<!-- <define name="GAMEJOLT_ALLOWED" /> -->
 	<define name="VIDEOS_ALLOWED" if="windows || linux || android || mac" unless="32bits" />
 
 	<define name="SHOW_LOADING_SCREEN" />
