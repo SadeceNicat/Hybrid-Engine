@@ -182,6 +182,10 @@ class TitleState extends MusicBeatState
 
 		FlxG.save.data.curChar = "bf";
 
+		if (FlxG.save.data.curStickerVar == null){
+			FlxG.save.data.curStickerVar = "basegame_boy";
+		}
+
 		Main.isFirst = true;
 
 		if(!initialized)
@@ -273,7 +277,7 @@ class TitleState extends MusicBeatState
 		#end
 		Mods.loadTopMod();
 			
-		loadTransitionSettings(); loadStartType(); loadConfig();
+		loadTransitionSettings(); loadStartType(); loadConfig(); loadStickerConfig();
 		loadJsonData();
 
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
@@ -487,6 +491,14 @@ class TitleState extends MusicBeatState
 		FlxG.save.data.freeplayCenter = mainJSON.Freeplay.isCentered;
 		FlxG.save.data.freeplayIcon = mainJSON.Freeplay.isIconsEnabled;
 		FlxG.save.data.hideFNFSongs = mainJSON.Freeplay.hideFNFSongs;
+		FlxG.save.data.curStickerVar = mainJSON.Freeplay.stickerset;
+	}
+
+	function loadStickerConfig(){
+		// var stickersConfig:Dynamic = Config.getConfig("stickers");
+
+		// trace(stickersConfig.stickerSet);
+		//FlxG.save.data.curStickerVar = stickersConfig.stickerSet;
 	}
 
 	function loadTransitionSettings()

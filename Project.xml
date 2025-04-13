@@ -26,7 +26,7 @@
 	<define name="DISCORD_ALLOWED" />
 	<define name="TRANSLATIONS_ALLOWED" />
 	<define name="IRIS_DEBUG" />
-	<define name="GAMEJOLT_ALLOWED" />
+	<!-- <define name="GAMEJOLT_ALLOWED" /> -->
 	<define name="VIDEOS_ALLOWED" if="windows || linux || android || mac" unless="32bits" />
 
 	<define name="SHOW_LOADING_SCREEN" />
@@ -125,6 +125,9 @@
 	<haxelib name="hxdiscord_rpc" version="1.2.4" if="DISCORD_ALLOWED" />
 	<haxelib name="tjson" version="1.4.0" />
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED" />
+
+	<haxelib name="grig.audio" if="BASE_GAME_FILES" />
+    <haxelib name="funkin.vis" if="BASE_GAME_FILES" />
 
 	<!-- <haxelib name="haxeui-core" /> -->
  	<!-- <haxelib name="haxeui-openfl" />     I use this for small things because haxeui-flixel crashes the game. If I have optimization problems I remove it. -->

@@ -382,6 +382,11 @@ class HScript extends Iris
 			}
 			return null;
 		});
+
+		funk.addLocalCallback("loadStickerSet", function(stickerSetName:String) {
+			FlxG.save.data.curStickerVar = stickerSetName;	
+		});
+
 		// This function is unnecessary because import already exists in HScript as a native feature
 		funk.addLocalCallback("addHaxeLibrary", function(libName:String, ?libPackage:String = '') {
 			var str:String = '';

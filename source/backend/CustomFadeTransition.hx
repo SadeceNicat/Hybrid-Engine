@@ -3,6 +3,8 @@ package backend;
 import flixel.util.FlxGradient;
 import haxe.Json;
 
+import lime.utils.Assets;
+
 class CustomFadeTransition extends MusicBeatSubstate {
 	public static var finishCallback:Void->Void;
 	var isTransIn:Bool = false;
@@ -38,6 +40,10 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		var width:Int = Std.int(FlxG.width / Math.max(camera.zoom, 0.001));
 		var height:Int = Std.int(FlxG.height / Math.max(camera.zoom, 0.001)); 
 
+		if (FlxG.save.data.curStickerVar == null){
+			FlxG.save.data.curStickerVar = "basegame_boy";
+		}
+
 		if (FlxG.save.data.TransitionType == "Default") {
 		transGradient = FlxGradient.createGradientFlxSprite(1, height, (isTransIn ? [0x0, FlxColor.BLACK] : [FlxColor.BLACK, 0x0]));
 		transGradient.scale.x = width;
@@ -72,7 +78,14 @@ class CustomFadeTransition extends MusicBeatSubstate {
 						permPos.push([xpos,ypos]);
 					}
 				}
-	
+				//FlxG.save.data.curStickerVar
+						
+				if (FlxG.save.data.curStickerVar == null){
+					FlxG.save.data.curStickerVar = "basegame_boy";
+				}
+
+				stickerVariants = Json.parse(Paths.getTextFromFile("data/stickers/"+FlxG.save.data.curStickerVar+".json"));
+
 				for (value in permPos){
 	
 					var randomvalue = Math.floor(Math.random() * (exPos.length - 1));
