@@ -5,10 +5,6 @@ import options.OptionsState;
 
 class HScriptStuffs {
 
-	// #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-    // private var luaDebugGroup: FlxTypedGroup<psychlua.DebugLuaText>;
-    // #end
-
 	public static function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) {
 		switch (eventName) {
 			case "ChangeState" :
@@ -72,21 +68,4 @@ class HScriptStuffs {
 		return [for (i in levels) i.value];
 	}
 	#end
-	// #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-	// public function addTextToDebug(text:String, color:FlxColor) {
-	// 	var newText:psychlua.DebugLuaText = luaDebugGroup.recycle(psychlua.DebugLuaText);
-	// 	newText.text = text;
-	// 	newText.color = color;
-	// 	newText.disableTime = 6;
-	// 	newText.alpha = 1;
-	// 	newText.setPosition(10, 8 - newText.height);
-
-	// 	luaDebugGroup.forEachAlive(function(spr:psychlua.DebugLuaText) {
-	// 		spr.y += newText.height + 2;
-	// 	});
-	// 	luaDebugGroup.add(newText);
-
-	// 	Sys.println(text);
-	// }
-	// #end
 }
