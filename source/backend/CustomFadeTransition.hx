@@ -108,7 +108,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		
 						var sticker:FlxSprite = new FlxSprite(xpos,ypos).loadGraphic(Paths.image("stickers/"+stickerVariants[randomstckr]));
 						add(sticker);
-						sticker.scale.set(0.8, 0.8);
+						sticker.scale.set(1, 1);
 						sticker.angle = FlxG.random.int(-10,10);
 						sticker.scrollFactor.set(0,0);
 						stickers.push([xpos, ypos, "stickers/"+stickerVariants[randomstckr],sticker.angle]);
