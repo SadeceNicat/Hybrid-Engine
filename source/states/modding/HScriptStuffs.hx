@@ -51,6 +51,27 @@ class HScriptStuffs {
 				trace("Null Value");
 		}
 	}
+	
+	#if funkin.vis
+	public static var audioAnalyzer:funkin.vis.dsp.SpectralAnalyzer;
+
+	public static function initAnalyzer(barCount:Int, maxDelta:Float = 0.01, peakHold:Int = 30) {
+		@:privateAccess
+		if (FlxG.sound.music == null || FlxG.sound.music._channel == null || FlxG.sound.music._channel.__audioSource == null) return;
+
+		@:privateAccess
+		audioAnalyzer = new funkin.vis.dsp.SpectralAnalyzer(FlxG.sound.music._channel.__audioSource, barCount, maxDelta, peakHold);
+
+		#if desktop
+		audioAnalyzer.fftN = 256;
+		#end
+	}
+
+	public static function getAudioLevels() {
+		var levels = audioAnalyzer.getLevels();
+		return [for (i in levels) i.value];
+	}
+	#end
 	// #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 	// public function addTextToDebug(text:String, color:FlxColor) {
 	// 	var newText:psychlua.DebugLuaText = luaDebugGroup.recycle(psychlua.DebugLuaText);
