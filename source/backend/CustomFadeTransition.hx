@@ -120,7 +120,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 						FlxG.sound.play(Paths.sound('stickers/keyClick' + randomsound), 0.6);
 						
 					});
-					timertime += 0.005;
+					timertime += 0.006;
 	
 					exPos.remove(exPos[randomvalue]);
 				}

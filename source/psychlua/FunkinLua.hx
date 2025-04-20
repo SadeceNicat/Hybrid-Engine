@@ -39,6 +39,7 @@ import psychlua.LuaUtils;
 import psychlua.LuaUtils.LuaTweenOptions;
 #if HSCRIPT_ALLOWED
 import psychlua.HScript;
+import states.modding.HScriptStuffs
 #end
 import psychlua.DebugLuaText;
 import psychlua.ModchartSprite;
@@ -1638,6 +1639,14 @@ class FunkinLua {
 			return PlayState.instance.getAudioLevels();
 		});
 
+		#end
+
+		#if HSCRIPT_ALLOWED
+
+		Lua_helper.add_callback(lua, "triggerHStuffEvent", function(eventName:String,eventValue1:Dynamic,eventValue2:Dynamic) {
+			HScriptStuffs.triggerEvent(eventName,eventValue1,eventValue2)
+		});
+		
 		#end
 
 		Lua_helper.add_callback(lua, "mouseOverlaps", function(tag:String, camera:String="camHud") { // SadeceNicat
