@@ -1,0 +1,80 @@
+{
+    "NoteAssets": {
+        "Vanilla": "NOTE_assets",
+        "Future": "NOTE_assets-chip",
+        "Chip": "NOTE_assets-future"
+    },
+    "GlobalNoteSpace": 10,
+    "NoteScale": 1,
+    "NoteStartXY": [0,0],
+    "notesData": [
+        {
+            "ID": 0,
+            "Direction": "left",
+            "SingDirection": "singLEFT",
+            "ControlName": "note_left",
+            "DisplayName": "Left",
+            "RebindDisplayName": "Left",
+            "NoteAnimations": {
+                "strumAnim": "arrowLEFT",
+                "strumPressAnim":"left",
+                "noteAnimation": "purple",
+                "holdLoop": "purple hold piece",
+                "holdEnd": "purple hold end",
+                "holdConfirm": "purple hold confirm"
+            },
+            "NoteSpace": 10
+        },
+        {
+            "ID": 1,
+            "Direction": "down",
+            "SingDirection": "singDOWN",
+            "ControlName": "note_down",
+            "DisplayName": "Down",
+            "RebindDisplayName": "Down",
+            "NoteAnimations": {
+                "strumAnim": "arrowDOWN",
+                "strumPressAnim":"down",
+                "noteAnimation": "blue",
+                "holdLoop": "blue hold piece",
+                "holdEnd": "blue hold end",
+                "holdConfirm": "blue hold confirm"
+            },
+            "NoteSpace": 10
+        },
+        {
+            "ID": 2,
+            "Direction": "up",
+            "SingDirection": "singUP",
+            "ControlName": "note_up",
+            "DisplayName": "Up",
+            "RebindDisplayName": "Up",
+            "NoteAnimations": {
+                "strumAnim": "arrowUP",
+                "strumPressAnim":"up",
+                "noteAnimation": "green",
+                "holdLoop": "green hold piece",
+                "holdEnd": "green hold end",
+                "holdConfirm": "green hold confirm"
+            },
+            "NoteSpace": 10
+        },
+        {
+            "ID": 3,
+            "Direction": "right",
+            "SingDirection": "singRIGHT",
+            "ControlName": "note_right",
+            "DisplayName": "Right",
+            "RebindDisplayName": "Right",
+            "NoteAnimations": {
+                "strumAnim": "arrowRIGHT",
+                "strumPressAnim":"right",
+                "noteAnimation": "red",
+                "holdLoop": "red hold piece",
+                "holdEnd": "red hold end",
+                "holdConfirm": "red hold confirm"
+            },
+            "NoteSpace": 10
+        }
+    ]
+}

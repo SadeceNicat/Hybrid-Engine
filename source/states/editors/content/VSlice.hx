@@ -254,6 +254,8 @@ class VSlice
 				needsVoices: true, //There's no value on V-Slice to identify if there are vocals as it checks automatically
 				speed: scrollSpeed,
 				offset: 0,
+				characters: [],
+				keys: 4,
 			
 				player1: metadata.playData.characters.player,
 				player2: metadata.playData.characters.opponent,

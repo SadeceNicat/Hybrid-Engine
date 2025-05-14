@@ -83,6 +83,10 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
+	public static var KEY_COUNT:Int = 4;
+
+	public static var STRUM_SET:String = "default";
+
 	public static var ratingStuff:Array<Dynamic> = [
 		['You Suck!', 0.2], //From 0% to 19%
 		['Shit', 0.4], //From 20% to 39%
@@ -117,6 +121,7 @@ class PlayState extends MusicBeatState
 	public var extraCharacters:Dynamic = [];
 
 	public var waveformSprite:Waveform;
+	public var waveforms:Array<Waveform> = [];
 
 	public var songSpeedTween:FlxTween;
 	public var songSpeed(default, set):Float = 1;
@@ -475,6 +480,7 @@ class PlayState extends MusicBeatState
 					boyfriendGroup.add(exChar);
 				}
 				extraCharacters.push(characterJson);
+				variables.set(exCharJson[i][0], exChar);
 			}
 		} catch(e:Dynamic) {
 
@@ -565,46 +571,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 
-		var buffer;
-		var isAdded:Bool = true;
-		var songParentFolder:String = "";
-		if (storyDifficultyText == "erect" || storyDifficultyText == "nightmare") {
-			songParentFolder = "erect/";
-		}
-
-		#if sys
-		if(FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"))) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
-		} else if (FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"))) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
-		}
-		else {
-			isAdded = false;
-			buffer = null;
-		}
-		#else
-		if(OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
-		} else if (OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
-			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
-		}
-		else {
-			isAdded = false;
-			buffer = null;
-		}
-		#end
-		
-		waveformSprite = new Waveform(140, 80, buffer, 200, 75);
-		waveformSprite.angle = 270;
-		waveformSprite.screenCenter(X);
-		waveformSprite.offset.x = 55;
-		waveformSprite.origin.set();
-		waveformSprite.scale.set(0.35, 4);
-		waveformSprite.cameras = [camHUD];
-		if(ClientPrefs.data.downScroll) waveformSprite.y = 710;
-
-		buffer = AudioBuffer.fromFile(Paths.getPath('$songName/Voices-Player.ogg',SOUND,"songs"));
-
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -620,11 +586,8 @@ class PlayState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
-		if (isAdded == true) {
-			if (ClientPrefs.data.timeBarType != 'Disabled') {
-				uiGroup.add(waveformSprite);
-			}
-		}
+
+		createWaveform(140, 80, 200, 75);
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
 
@@ -702,6 +665,9 @@ class PlayState extends MusicBeatState
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = healthBar.y + 70;
+
+		scoreTxt.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+		botplayTxt.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
@@ -903,6 +869,62 @@ class PlayState extends MusicBeatState
 	public function reloadHealthBarColors() {
 		healthBar.setColors(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
 			FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
+	}
+
+	public function createWaveform(x:Float, y:Float, width:Int, height:Int, ?customBufferFolder:String = null):Waveform {
+		if (ClientPrefs.data.hideWaveforms == false) {
+
+		var buffer:AudioBuffer;
+		var isAdded:Bool = true;
+		var songParentFolder:String = "";
+		if (storyDifficultyText == "erect" || storyDifficultyText == "nightmare") {
+			songParentFolder = "erect/";
+		}
+
+		#if sys
+		if(FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"))) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
+		} else if (FileSystem.exists(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"))) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
+		}
+		else {
+			isAdded = false;
+			buffer = null;
+		}
+		#else
+		if(OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"));
+		} else if (OpenFlAssets.exists(Paths.getPath('$songName/'+songParentFolder+'Voices-Player.ogg',SOUND,"songs"), SOUND)) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+songParentFolder+'Voices.ogg',SOUND,"songs"));
+		}
+		else {
+			isAdded = false;
+			buffer = null;
+		}
+		#end
+
+		if (customBufferFolder != null) {
+			buffer = AudioBuffer.fromFile(Paths.getPath('$songName/'+customBufferFolder,SOUND,"songs"));
+			isAdded = true;
+		}
+
+		var waveform = new Waveform(x, y, buffer, width, height);
+		waveform.angle = 270;
+		waveform.screenCenter(X);
+		waveform.offset.x = 55;
+		waveform.origin.set();
+		waveform.scale.set(0.35, 4);
+		waveform.cameras = [camHUD];
+		if(ClientPrefs.data.downScroll) waveform.y = 710;
+		uiGroup.add(waveform);
+
+		waveform.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+
+		waveforms.push(waveform);
+		return waveform;
+		} else {
+			return null;
+		}
 	}
 
 	public function addCharacterToList(newCharacter:String, type:Int) {
@@ -1758,7 +1780,11 @@ class PlayState extends MusicBeatState
 	{
 		var strumLineX:Float = ClientPrefs.data.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X;
 		var strumLineY:Float = ClientPrefs.data.downScroll ? (FlxG.height - 150) : 50;
-		for (i in 0...4)
+
+		var strumSetJSON:Dynamic = Paths.json('notes/'+STRUM_SET);
+		trace(strumSetJSON);
+
+		for (i in 0...KEY_COUNT)
 		{
 			// FlxG.log.add(i);
 			var targetAlpha:Float = ClientPrefs.data.strumAlpha;
@@ -1947,9 +1973,14 @@ class PlayState extends MusicBeatState
 		updateIconsScale(elapsed);
 		updateIconsPosition();
 
-		waveformSprite.generateFlixel(Conductor.songPosition - 200, Conductor.songPosition);
-
-		if (vocals != null) waveformSprite.scale.x = 0.25 * vocals.volume;
+		for (i in 0...waveforms.length)
+		{
+			if (waveforms[i] != null)
+			{
+				waveforms[i].generateFlixel(Conductor.songPosition - 200, Conductor.songPosition);
+				if (vocals != null) waveforms[i].scale.x = 0.25 * vocals.volume;
+			}
+		}
 
 		if (startedCountdown && !paused)
 		{
@@ -1962,10 +1993,6 @@ class PlayState extends MusicBeatState
 					Conductor.songPosition = Conductor.songPosition + 1000 * FlxMath.signOf(timeDiff);
 			}
 		}
-
-		scoreTxt.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
-		botplayTxt.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
-		waveformSprite.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 
 		if (startingSong)
 		{
@@ -3217,11 +3244,25 @@ class PlayState extends MusicBeatState
 			dad.specialAnim = true;
 			dad.heyTimer = 0.6;
 		}
+		else if (note.isSustainNote) {
+			var char:Character = dad;
+			if(note.gfNote) char = gf;
+			for (i in 0...extraCharacters.length) {
+				var v = extraCharacters[i];
+				var exChar:Character = v[0];
+				if (note.noteType == extraCharacters[i][1][1]) {
+					char = exChar;
+					break;
+				}
+			}
+			char.holdTimer = 0;
+		}
 		else if(!note.noAnimation)
 		{
 			var char:Character = dad;
 			var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
 			if(note.gfNote) char = gf;
+			
 			for (i in 0...extraCharacters.length) {
 				var v = extraCharacters[i];
 				var exChar:Character = v[0];
@@ -3236,6 +3277,14 @@ class PlayState extends MusicBeatState
 				var canPlay:Bool = true;
 				if(note.isSustainNote)
 				{
+					for (i in 0...extraCharacters.length) {
+						var v = extraCharacters[i];
+						var exChar:Character = v[0];
+						if (note.noteType == extraCharacters[i][1][1]) {
+							char = exChar;
+							break;
+						}
+					}
 					var holdAnim:String = animToPlay + '-hold';
 					if(char.animation.exists(holdAnim)) animToPlay = holdAnim;
 					if(char.getAnimationName() == holdAnim || char.getAnimationName() == holdAnim + '-loop') canPlay = false;
@@ -3355,6 +3404,19 @@ class PlayState extends MusicBeatState
 						}
 					}
 				}
+			else if (note.isSustainNote) {
+					var char:Character = boyfriend;
+					if(note.gfNote) char = gf;
+					for (i in 0...extraCharacters.length) {
+						var v = extraCharacters[i];
+						var exChar:Character = v[0];
+						if (note.noteType == extraCharacters[i][1][1]) {
+							char = exChar;
+							break;
+						}
+					}
+					char.holdTimer = 0;
+				}
 			}
 
 			if(!cpuControlled)
@@ -3426,10 +3488,15 @@ class PlayState extends MusicBeatState
 	}
 
 	public function spawnHoldSplash(note:Note) {
-		var end:Note = note.isSustainNote ? note.parent.tail[note.parent.tail.length - 1] : note.tail[note.tail.length - 1];
-		var splash:SustainSplash = grpHoldSplashes.recycle(SustainSplash);
-		splash.setupSusSplash(strumLineNotes.members[end.noteData + (end.mustPress ? 4 : 0)], end, playbackRate);
-		grpHoldSplashes.add(splash);
+		if(note != null) {
+			var strum:StrumNote = playerStrums.members[note.noteData];
+			if(strum != null) {
+				var end:Note = note.isSustainNote ? note.parent.tail[note.parent.tail.length - 1] : note.tail[note.tail.length - 1];
+				var splash:SustainSplash = grpHoldSplashes.recycle(SustainSplash);
+				splash.setupSusSplash(strumLineNotes.members[end.noteData + (end.mustPress ? 4 : 0)], end, playbackRate);
+				grpHoldSplashes.add(splash);
+			}
+		}
 	}
 
 	public function spawnNoteSplashOnNote(note:Note) {

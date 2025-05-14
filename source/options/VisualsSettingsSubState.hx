@@ -1,5 +1,7 @@
 package options;
 
+import lime.graphics.RenderContextAttributes;
+import lime.graphics.RenderContext;
 import objects.Note;
 import objects.StrumNote;
 import objects.NoteSplash;
@@ -96,6 +98,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		var option:Option = new Option('V-Slice HUD',
 			'If checked, enables the V-Slice HUD.',
 			'vanillaHUD',
+		BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Hide Waveforms',
+			'If checked, hides the waveforms.',
+			'hideWaveforms',
 		BOOL);
 		addOption(option);
 

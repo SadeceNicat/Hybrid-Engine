@@ -39,7 +39,7 @@ import psychlua.LuaUtils;
 import psychlua.LuaUtils.LuaTweenOptions;
 #if HSCRIPT_ALLOWED
 import psychlua.HScript;
-import states.modding.HScriptStuffs
+import states.modding.ModdingStuff;
 #end
 import psychlua.DebugLuaText;
 import psychlua.ModchartSprite;
@@ -94,30 +94,32 @@ class FunkinLua {
 		set('modFolder', this.modFolder);
 
 		// Song/Week shit
-		set('curBpm', Conductor.bpm);
-		set('bpm', PlayState.SONG.bpm);
-		set('scrollSpeed', PlayState.SONG.speed);
-		set('crochet', Conductor.crochet);
-		set('stepCrochet', Conductor.stepCrochet);
-		set('songLength', FlxG.sound.music.length);
-		set('songName', PlayState.SONG.song);
-		set('songPath', Paths.formatToSongPath(PlayState.SONG.song));
-		set('loadedSongName', Song.loadedSongName);
-		set('loadedSongPath', Paths.formatToSongPath(Song.loadedSongName));
-		set('chartPath', Song.chartPath);
-		set('startedCountdown', false);
-		set('curStage', PlayState.SONG.stage);
+		if (FlxG.state is PlayState) {
+			set('curBpm', Conductor.bpm);
+			set('bpm', PlayState.SONG.bpm);
+			set('scrollSpeed', PlayState.SONG.speed);
+			set('crochet', Conductor.crochet);
+			set('stepCrochet', Conductor.stepCrochet);
+			set('songLength', FlxG.sound.music.length);
+			set('songName', PlayState.SONG.song);
+			set('songPath', Paths.formatToSongPath(PlayState.SONG.song));
+			set('loadedSongName', Song.loadedSongName);
+			set('loadedSongPath', Paths.formatToSongPath(Song.loadedSongName));
+			set('chartPath', Song.chartPath);
+			set('startedCountdown', false);
+			set('curStage', PlayState.SONG.stage);
 
-		set('isStoryMode', PlayState.isStoryMode);
-		set('difficulty', PlayState.storyDifficulty);
+			set('isStoryMode', PlayState.isStoryMode);
+			set('difficulty', PlayState.storyDifficulty);
 
-		set('difficultyName', Difficulty.getString(false));
-		set('difficultyPath', Difficulty.getFilePath());
-		set('difficultyNameTranslation', Difficulty.getString(true));
-		set('weekRaw', PlayState.storyWeek);
-		set('week', WeekData.weeksList[PlayState.storyWeek]);
-		set('seenCutscene', PlayState.seenCutscene);
-		set('hasVocals', PlayState.SONG.needsVoices);
+			set('difficultyName', Difficulty.getString(false));
+			set('difficultyPath', Difficulty.getFilePath());
+			set('difficultyNameTranslation', Difficulty.getString(true));
+			set('weekRaw', PlayState.storyWeek);
+			set('week', WeekData.weeksList[PlayState.storyWeek]);
+			set('seenCutscene', PlayState.seenCutscene);
+			set('hasVocals', PlayState.SONG.needsVoices);
+		}
 
 		// Screen stuff
 		set('screenWidth', FlxG.width);
@@ -1642,11 +1644,7 @@ class FunkinLua {
 		#end
 
 		#if HSCRIPT_ALLOWED
-
-		Lua_helper.add_callback(lua, "triggerHStuffEvent", function(eventName:String,eventValue1:Dynamic,eventValue2:Dynamic) {
-			HScriptStuffs.triggerEvent(eventName,eventValue1,eventValue2)
-		});
-		
+		Lua_helper.add_callback(lua, "triggerModdingStuffEvent", function(eventName:String,eventValue1:Dynamic,eventValue2:Dynamic) { ModdingStuff.triggerEvent(eventName,eventValue1,eventValue2); }); Lua_helper.add_callback(lua, "triggerHStuffEvent", function(eventName:String,eventValue1:Dynamic,eventValue2:Dynamic) { ModdingStuff.triggerEvent(eventName,eventValue1,eventValue2); });
 		#end
 
 		Lua_helper.add_callback(lua, "mouseOverlaps", function(tag:String, camera:String="camHud") { // SadeceNicat

@@ -14,6 +14,8 @@ typedef SwagSong =
 	var needsVoices:Bool;
 	var speed:Float;
 	var offset:Float;
+	var characters:Array<Dynamic>;
+	var keys:Int;
 
 	var player1:String;
 	var player2:String;
@@ -63,6 +65,8 @@ class Song
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
 	public var format:String = 'psych_v1';
+	public var characters:Array<Dynamic> = [];
+	public var keys:Int = 4;
 
 	public static function convert(songJson:Dynamic) // Convert old charts to psych_v1 format
 	{

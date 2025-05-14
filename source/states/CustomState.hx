@@ -5,7 +5,7 @@ import crowplexus.iris.Iris;
 import backend.Song;
 import backend.Highscore;
 import options.OptionsState;
-import states.modding.HScriptStuffs;
+import states.modding.ModdingStuff;
 
 class CustomState extends MusicBeatState {
 
@@ -85,7 +85,7 @@ class CustomState extends MusicBeatState {
     }
 
     function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) {
-		HScriptStuffs.triggerEvent(eventName,eventValue,eventValue2);
+		ModdingStuff.triggerEvent(eventName,eventValue,eventValue2);
 		callOnHScript("onEvent",[eventName,eventValue,eventValue2]);
 	}
 }

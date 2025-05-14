@@ -112,11 +112,13 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
+	<haxelib name="lime"/> 
+	<haxelib name="openfl"/> 
+
 	<haxelib name="flixel" version="5.6.1" />
 	<haxelib name="flixel-addons" version="3.2.2" />
 	<haxelib name="flxanimate" />
 	<haxelib name="tjson" version="1.4.0" />
-	<haxelib name="away3d" />
 
 
 	<!--Psych stuff needed-->
@@ -129,7 +131,9 @@
 	<haxelib name="grig.audio" if="BASE_GAME_FILES" />
     <haxelib name="funkin.vis" if="BASE_GAME_FILES" />
 
-	<!-- <haxelib name="haxeui-core" /> -->
+	<haxelib name="haxeui-core" />
+	<haxelib name="haxeui-flixel" />
+	<haxelib name="flixel-text-input" />
  	<!-- <haxelib name="haxeui-openfl" />     I use this for small things because haxeui-flixel crashes the game. If I have optimization problems I remove it. -->
 
 	<!-- Disable Discord IO Thread -->

@@ -1,81 +1,105 @@
 {
 	"animations": [
 		{
-			"offsets": [3, 0],
 			"loop": false,
+			"offsets": [60, 0],
+			"anim": "intro1",
 			"fps": 24,
-			"anim": "idle",
+			"name": "Pico Gets Pissed0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "cockCutscene",
+			"fps": 24,
+			"name": "cutscene cock0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [255, 231],
+			"anim": "intro2",
+			"fps": 24,
+			"name": "shoot and return0",
+			"indices": []
+		},
+		{
+			"offsets": [3, 0],
 			"indices": [],
+			"fps": 30,
+			"anim": "idle",
+			"loop": false,
 			"name": "Pico Idle Dance"
 		},
 		{
 			"offsets": [21, 27],
-			"loop": false,
-			"fps": 24,
-			"anim": "singUP",
 			"indices": [],
+			"fps": 30,
+			"anim": "singUP",
+			"loop": false,
 			"name": "pico Up note0"
 		},
 		{
 			"offsets": [84, -80],
-			"loop": false,
-			"fps": 24,
-			"anim": "singDOWN",
 			"indices": [],
+			"fps": 30,
+			"anim": "singDOWN",
+			"loop": false,
 			"name": "Pico Down Note0"
 		},
 		{
 			"offsets": [80, -38],
-			"loop": false,
-			"fps": 24,
-			"anim": "singDOWNmiss",
 			"indices": [],
+			"fps": 30,
+			"anim": "singDOWNmiss",
+			"loop": false,
 			"name": "Pico Down Note MISS"
 		},
 		{
 			"offsets": [28, 67],
-			"loop": false,
-			"fps": 24,
-			"anim": "singUPmiss",
 			"indices": [],
+			"fps": 30,
+			"anim": "singUPmiss",
+			"loop": false,
 			"name": "pico Up note miss"
 		},
 		{
-			"loop": false,
 			"offsets": [-48, 2],
+			"indices": [],
+			"fps": 30,
 			"anim": "singRIGHT",
-			"fps": 24,
-			"name": "Pico Note Right0",
-			"indices": []
+			"loop": false,
+			"name": "Pico Note Right0"
 		},
 		{
-			"loop": false,
 			"offsets": [85, -10],
+			"indices": [],
+			"fps": 30,
 			"anim": "singLEFT",
-			"fps": 24,
-			"name": "Pico NOTE LEFT0",
-			"indices": []
+			"loop": false,
+			"name": "Pico NOTE LEFT0"
 		},
 		{
-			"loop": false,
 			"offsets": [-45, 50],
+			"indices": [],
+			"fps": 30,
 			"anim": "singRIGHTmiss",
-			"fps": 24,
-			"name": "Pico Note Right Miss",
-			"indices": []
+			"loop": false,
+			"name": "Pico Note Right Miss"
 		},
 		{
-			"loop": false,
 			"offsets": [83, 28],
+			"indices": [],
+			"fps": 30,
 			"anim": "singLEFTmiss",
-			"fps": 24,
-			"name": "Pico NOTE LEFT miss",
-			"indices": []
+			"loop": false,
+			"name": "Pico NOTE LEFT miss"
 		},
 		{
 			"offsets": [256, 232],
 			"indices": [],
-			"fps": 24,
+			"fps": 30,
 			"anim": "shoot",
 			"loop": false,
 			"name": "Pico Shoot Hip Full0"
@@ -83,7 +107,7 @@
 		{
 			"offsets": [0, 0],
 			"indices": [],
-			"fps": 24,
+			"fps": 30,
 			"anim": "shootMISS",
 			"loop": false,
 			"name": "Pico Hit Can0"
@@ -91,34 +115,10 @@
 		{
 			"offsets": [0, 0],
 			"indices": [],
-			"fps": 24,
+			"fps": 30,
 			"anim": "cock",
 			"loop": false,
 			"name": "Pico Reload0"
-		},
-		{
-			"offsets": [60, 0],
-			"indices": [],
-			"fps": 24,
-			"anim": "intro1",
-			"loop": false,
-			"name": "Pico Gets Pissed0"
-		},
-		{
-			"offsets": [0, 0],
-			"indices": [],
-			"fps": 24,
-			"anim": "cockCutscene",
-			"loop": false,
-			"name": "cutscene cock0"
-		},
-		{
-			"offsets": [255, 231],
-			"indices": [],
-			"fps": 24,
-			"anim": "intro2",
-			"loop": false,
-			"name": "shoot and return0"
 		}
 	],
 	"vocals_file": "",

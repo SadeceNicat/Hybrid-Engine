@@ -1,5 +1,6 @@
 package states;
 
+import psychlua.FunkinLua;
 import crowplexus.iris.Iris;
 import debug.FPSCounter;
 import flixel.FlxObject;
@@ -8,7 +9,7 @@ import lime.app.Application;
 import options.OptionsState;
 import psychlua.HScript;
 import states.editors.MasterEditorMenu;
-import states.modding.HScriptStuffs;
+import states.modding.ModdingStuff;
 
 class MainMenuState extends MusicBeatState {
     // Configuration
@@ -51,22 +52,41 @@ class MainMenuState extends MusicBeatState {
     public static var curSelected: Int = 0; public static var oldSelected: Int = 0;
     var option: String;
 
+	#if LUA_ALLOWED 
+    public var luaArray:Array<FunkinLua> = [];
+
+    public function callOnLua(funcToCall: String, args: Array<Dynamic> = null) { 
+        for (script in luaArray) { if (script != null) { script.call(funcToCall, args); } } 
+    }
+    
+    public function initLua(file: String) {
+        try { var newScript: FunkinLua = new FunkinLua(file); trace('Initialized Lua interpreter successfully: $file'); luaArray.push(newScript);
+        } catch (e: Dynamic) { trace('ERROR ON LOADING ($file) - $e'); }
+    }
+    
+    #end
+
     // HScript Methods
     #if HSCRIPT_ALLOWED
-    public function callOnHScript(funcToCall: String, args: Array<Dynamic> = null) { for (script in hscriptArray) { if (script != null) { script.executeFunction(funcToCall, args); } } }
+    public function callOnHScript(funcToCall: String, args: Array<Dynamic> = null) { 
+        for (script in hscriptArray) { if (script != null) { script.executeFunction(funcToCall, args); } } 
+    }
 
     public function initHScript(file: String) {
         try { var newScript: HScript = new HScript(null, file); newScript.executeFunction('onCreate'); trace('Initialized HScript interpreter successfully: $file'); hscriptArray.push(newScript);
         } catch (e: Dynamic) { trace('ERROR ON LOADING ($file) - $e'); var newScript: HScript = cast(Iris.instances.get(file), HScript); if (newScript != null) { newScript.destroy(); } }
     }
-
-    function loadHScript() {
-        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
-            for (file in FileSystem.readDirectory(folder)) { #if HSCRIPT_ALLOWED if (file.toLowerCase().endsWith('.hx')) { initHScript(folder + file); } #end }
-    }
     #end
 
-	function onLoad(obj:Dynamic,objName:String) { add(obj); callOnHScript("onLoad",[objName,obj]); }
+    function loadScripts() {
+        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
+            for (file in FileSystem.readDirectory(folder)) {
+                #if HSCRIPT_ALLOWED if (file.toLowerCase().endsWith('.hx')) { initHScript(folder + file); } #end 
+                #if LUA_ALLOWED if (file.toLowerCase().endsWith('.lua')) { initLua(folder + file); } #end 
+            }
+    }
+
+	function onLoad(obj:Dynamic,objName:String) { add(obj); variables.set(objName, obj); callOnHScript("onLoad",[objName,obj]); callOnLua("onLoad",[objName]); }
 	
     // UI Methods
     override function create() {
@@ -74,7 +94,7 @@ class MainMenuState extends MusicBeatState {
         #if MODS_ALLOWED Mods.pushGlobalMods(); #end Mods.loadTopMod();
         #if DISCORD_ALLOWED DiscordClient.changePresence("In the Menus", null); #end FPSCounter.showFPS();
 
-        reloadGroups(); loadHScript();
+        reloadGroups(); loadScripts();
 
         camFollow = new FlxObject(0, 0, 1, 1);
         onLoad(camFollow, "camFollow");
@@ -84,16 +104,18 @@ class MainMenuState extends MusicBeatState {
 		onLoad(menuItemsBack,"menuItemsBack");
 		onLoad(menuItems,"menuItems");
         FlxG.mouse.visible = true;
+
+        callOnHScript("onCreatePost", []);
     }
 
 	function createVisuals() {
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
+		var bg = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set(0, yScroll); bg.setGraphicSize(Std.int(bg.width * 1.175)); bg.updateHitbox(); bg.screenCenter(); bg.antialiasing = ClientPrefs.data.antialiasing; onLoad(bg,"bg");
 
-		var hybridVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Hybrid Engine v" + hybridEngineVersion, 12);
+		var hybridVer = new FlxText(12, FlxG.height - 44, 0, "Hybrid Engine v" + hybridEngineVersion, 12);
 		hybridVer.scrollFactor.set(); hybridVer.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK); onLoad(hybridVer,"hybridVer");
-		var fnfVer:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		var fnfVer = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		fnfVer.scrollFactor.set(); fnfVer.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK); onLoad(fnfVer,"fnfVer");
 	}
 
@@ -146,7 +168,7 @@ class MainMenuState extends MusicBeatState {
         callOnHScript("onUpdatePost", [elapsed]);
     }
 
-	function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) { HScriptStuffs.triggerEvent(eventName,eventValue,eventValue2); }
+	function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) { ModdingStuff.triggerEvent(eventName,eventValue,eventValue2); }
 
     function onAccept() {
         var item: FlxSprite = menuItems.members[curSelected];
@@ -164,7 +186,7 @@ class MainMenuState extends MusicBeatState {
 			if (!cancelLoad) {
 				switch (option) {
 					default:
-						HScriptStuffs.triggerEvent("ChangeState", option);
+						ModdingStuff.triggerEvent("ChangeState", option);
 				}
 			} else { }
         });

@@ -5,7 +5,7 @@ import objects.AttachedSprite;
 import psychlua.HScript;
 import crowplexus.iris.Iris;
 #end
-import states.modding.HScriptStuffs;
+import states.modding.ModdingStuff;
 
 class CreditsState extends MusicBeatState
 {
@@ -70,7 +70,7 @@ class CreditsState extends MusicBeatState
 	public var hscriptArray:Array<HScript> = [];
 	#end
 	
-	function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) { HScriptStuffs.triggerEvent(eventName,eventValue,eventValue2); }
+	function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) { ModdingStuff.triggerEvent(eventName,eventValue,eventValue2); }
 
 	public function callOnHScript(funcToCall:String, args:Array<Dynamic> = null) {
 		#if HSCRIPT_ALLOWED

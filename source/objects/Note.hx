@@ -321,6 +321,10 @@ class Note extends FlxSprite
 			centerOrigin();
 		}
 		x += offsetX;
+
+		if (sustainNote == true) {
+			noAnimation = true;
+		}
 	}
 
 	public static function initializeGlobalRGBShader(noteData:Int)

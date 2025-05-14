@@ -30,7 +30,6 @@ class GameStuffs { // programming war crimes
 		"2Hot",
 		"Blazin",
 		"Darnell (BF Mix)"
-
 	];
 
     public static var alphabetreal = [

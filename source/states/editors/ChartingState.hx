@@ -487,7 +487,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var iconY:Float = 50;
 		if(SHOW_EVENT_COLUMN)
 		{
-			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/charteditor/eventIcon'));
+			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/charteditor/eventIconPE'));
 			eventIcon.antialiasing = ClientPrefs.data.antialiasing;
 			eventIcon.alpha = 0.6;
 			eventIcon.setGraphicSize(30, 30);
@@ -606,21 +606,24 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		
 		// TABS
 		////// for main box
+		callOnHScript("onMainBoxPre",[]);
 		addChartingTab();
 		addDataTab();
 		addEventsTab();
 		addNoteTab();
 		addSectionTab();
 		addSongTab();
+		callOnHScript("onMainBoxPost",[]);
 		
 		////// for upper box
+		callOnHScript("onUpperBoxPre",[]);
 		addFileTab();
 		addEditTab();
 		addTestTab();
 		addHelpTab();
 		addEditorsTab();
 		addViewTab();
-		callOnHScript("addTabFunction",[]);
+		callOnHScript("onUpperBoxPost",[]);
 		//
 
 		loadMusic();
@@ -789,6 +792,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			needsVoices: true,
 			speed: 1,
 			offset: 0,
+			characters: [],
+			keys: 4,
 
 			player1: 'bf',
 			player2: 'dad',
@@ -1721,7 +1726,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 				note.alpha = (note.strumTime >= Conductor.songPosition) ? 1 : 0.6;
 
-				if(Conductor.songPosition > note.strumTime && lastTime <= note.strumTime)
+				if(Conductor.songPosition >= note.strumTime && lastTime <= note.strumTime)
 				{
 
 					if(canPlayHitSound)
@@ -3173,6 +3178,34 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			selectedNotes = newSelected;
 			softReloadNotes();
 		}, 150);
+
+		objY += 40;
+
+		var selectOpponentNotes:PsychUIButton = new PsychUIButton(objX, objY, 'Select Opponent Notes', function()
+		{
+			selectedNotes = [];
+			for (note in curRenderedNotes)
+			{
+				if(note == null || note.mustPress || note.isEvent) continue;
+
+				selectedNotes.push(note);
+			}
+			softReloadNotes(true);
+		}, 100);
+
+		objY += 40;
+
+		var selectBFNotes:PsychUIButton = new PsychUIButton(objX, objY, 'Select BF Notes', function()
+		{
+			selectedNotes = [];
+			for (note in curRenderedNotes)
+			{
+				if(note == null || !note.mustPress || note.isEvent) continue;
+
+				selectedNotes.push(note);
+			}
+			softReloadNotes(true);
+		}, 100);
 		
 		tab_group.add(new FlxText(susLengthStepper.x, susLengthStepper.y - 15, 80, 'Sustain length:'));
 		tab_group.add(new FlxText(strumTimeStepper.x, strumTimeStepper.y - 15, 100, 'Note Hit time (ms):'));
@@ -3180,6 +3213,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(susLengthStepper);
 		tab_group.add(strumTimeStepper);
 		tab_group.add(noteTypeDropDown);
+		tab_group.add(selectOpponentNotes);
+		tab_group.add(selectBFNotes);
 	}
 
 	var mustHitCheckBox:PsychUICheckBox;

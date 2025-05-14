@@ -3,7 +3,7 @@ import backend.Song;
 import backend.Highscore;
 import options.OptionsState;
 
-class HScriptStuffs {
+class ModdingStuff {
 
 	public static function triggerEvent(eventName:String,eventValue:Dynamic = 1,eventValue2:Dynamic = 1) {
 		switch (eventName) {

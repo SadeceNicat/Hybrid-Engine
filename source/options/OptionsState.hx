@@ -6,15 +6,13 @@ import backend.StageData;
 class OptionsState extends MusicBeatState
 {
 	var options:Array<String> = [
-		#if GAMEJOLT_ALLOWED
-		'Gamejolt', 
-		#end
 		'Note Colors',
-		'Controls',
-		'Adjust Delay and Combo',
-		'Graphics',
 		'Visuals',
+		'Graphics',
+		'Controls',
 		'Gameplay',
+		"Super Secret Settings",
+		'Adjust Delay and Combo',
 		#if TRANSLATIONS_ALLOWED 'Language' #end
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -37,12 +35,10 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.GameplaySettingsSubState());
 			case 'Adjust Delay and Combo':
 				MusicBeatState.switchState(new options.NoteOffsetState());
+			case 'Super Secret Settings':
+				MusicBeatState.switchState(new SuperSecretSettingsState());
 			case 'Language':
 				openSubState(new options.LanguageSubState());
-			#if GAMEJOLT_ALLOWED
-			case 'Gamejolt':
-				MusicBeatState.switchState(new states.GameJoltState());
-			#end
 		}
 	}
 
@@ -69,12 +65,16 @@ class OptionsState extends MusicBeatState
 		for (num => option in options)
 		{
 			var optionText:Alphabet = new Alphabet(50, 0, Language.getPhrase('options_$option', option), true);
-			optionText.y += (92 * (num - (options.length / 2))) + 365;
+			optionText.scaleX = 0.75;
+			optionText.scaleY = 0.75;
+			optionText.y += (80 * (num - (options.length / 2))) + 370;
 			grpOptions.add(optionText);
 		}
 
 		selectorLeft = new Alphabet(0, 0, '>', true);
 		selectorRight = new Alphabet(0, 0, '<', true);
+		selectorRight.scaleX = 0.8;
+		selectorRight.scaleY = 0.8;
 		add(selectorRight);
 
 		changeSelection();
