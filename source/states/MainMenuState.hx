@@ -159,8 +159,9 @@ class MainMenuState extends MusicBeatState {
             if (controls.BACK && disableKeyboard == false) { MusicBeatState.switchState(new TitleState()); }
 			if (controls.justPressed('debug_1')) { FlxG.mouse.visible = false; lockControls = true; MusicBeatState.switchState(new MasterEditorMenu()); }
 
-            for (i in 0...optionShit.length) { var memb:FlxSprite = menuItems.members[i]; if(FlxG.mouse.overlaps(memb) && allowMouse) { scrollMenu(i,true); } }
-            
+            if (FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0 && allowMouse) {
+                for (i in 0...optionShit.length) { var memb:FlxSprite = menuItems.members[i]; if(FlxG.mouse.overlaps(memb)) { scrollMenu(i,true); } }
+            }
         }
 
         if (!clearMenu) FlxG.camera.follow(camFollow, null, 0.15);

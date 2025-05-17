@@ -29,9 +29,10 @@ import states.editors.content.*;
 import states.editors.content.MetaNote;
 import states.editors.content.Prompt;
 import states.editors.content.VSlice;
+import flixel.FlxObject;
 
-// import haxe.ui.notifications.NotificationManager;
-// import haxe.ui.notifications.NotificationType;
+import haxe.ui.notifications.NotificationManager;
+import haxe.ui.notifications.NotificationType;
 
 using DateTools;
 
@@ -144,7 +145,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var hasBD:Bool = true;
 	
 	var camUI:FlxCamera;
-	var camChar:FlxCamera;
+	var gamePrevCamera:FlxCamera;
 
 	var prevGridBg:ChartingGridSprite;
 	var gridBg:ChartingGridSprite;
@@ -250,7 +251,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			remove(boy);
 			if (hasBD == true) {
 				boy = new Character(FlxG.save.data.boyX, FlxG.save.data.boyY, PlayState.SONG.player1, true);
-				boy.cameras = [camChar];
+				boy.cameras = [gamePrevCamera];
 				add(boy);
 			}
 		} catch(e:Dynamic) {
@@ -265,7 +266,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			if (hasBD == true) {
 				dad = new Character(FlxG.save.data.dadX, FlxG.save.data.dadY, PlayState.SONG.player2, true);
 				dad.flipX = false;
-				dad.cameras = [camChar];
+				dad.cameras = [gamePrevCamera];
 				add(dad);
 			}
 		} 
@@ -340,10 +341,11 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 		initPsychCamera();
 
-		camChar = new FlxCamera();
-		camChar.zoom = 0.35;
-		camChar.bgColor.alpha = 0;
-		FlxG.cameras.add(camChar, false);
+		gamePrevCamera = new FlxCamera();
+		gamePrevCamera.zoom = 1;
+		gamePrevCamera.bgColor.alpha = 0;
+		gamePrevCamera.zoom = 0.35;
+		FlxG.cameras.add(gamePrevCamera, false);
 
 		camUI = new FlxCamera();
 		camUI.bgColor.alpha = 0;
@@ -385,7 +387,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				trace(exCharJson[i][4]);
 				var exChar = new Character(-330, 708, exCharJson[i][0],true);
 				var characterJson:Dynamic = [exChar,exCharJson[i]];
-				exChar.cameras = [camChar];
+				exChar.cameras = [gamePrevCamera];
 				exChar.flipX = true;
 				add(exChar);
 
@@ -398,13 +400,14 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		} catch(e:Dynamic) {
 
 		}
+		
 
 		dad = new Character(dadX, dadY, "dad");
-		dad.cameras = [camChar];
+		dad.cameras = [gamePrevCamera];
 		add(dad);
 
 		boy = new Character(bfX, bfY, "bf", true);
-		boy.cameras = [camChar];
+		boy.cameras = [gamePrevCamera];
 		add(boy);
 
 		createGrids();
@@ -865,7 +868,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		for (i in 0...extraChars.length) { 
 			var v = extraChars[i];
 			var char:Character = v[0];
-			if (FlxG.mouse.overlaps(char,camChar)) {
+			if (FlxG.mouse.overlaps(char,gamePrevCamera)) {
 				if (FlxG.mouse.pressed  && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0)) {
 					char.x += FlxG.mouse.deltaScreenX * 3;
 					char.y += FlxG.mouse.deltaScreenY * 3;
@@ -881,7 +884,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			}
 		}
 
-		if (FlxG.mouse.overlaps(boy,camChar)) {
+		if (FlxG.mouse.overlaps(boy,gamePrevCamera)) {
 			if (FlxG.mouse.pressed  && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0)) {
 				boy.x += FlxG.mouse.deltaScreenX * 3;
 				boy.y += FlxG.mouse.deltaScreenY * 3;
@@ -899,7 +902,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			}
 		}
 
-		if (FlxG.mouse.overlaps(dad,camChar)) {
+		if (FlxG.mouse.overlaps(dad,gamePrevCamera)) {
 			if (FlxG.mouse.pressed  && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0)) {
 				dad.x += FlxG.mouse.deltaScreenX * 3;
 				dad.y += FlxG.mouse.deltaScreenY * 3;
@@ -1460,8 +1463,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		}
 		else if(FlxG.mouse.pressedRight && isSelectionDB == false && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0))
 		{
-			selectionBox.setPosition(FlxG.mouse.screenX, FlxG.mouse.screenY);
-			selectionStart.set(FlxG.mouse.screenX, FlxG.mouse.screenY);
+			selectionBox.setPosition(FlxG.mouse.viewX, FlxG.mouse.viewY);
+			selectionStart.set(FlxG.mouse.viewX, FlxG.mouse.viewY);
 			selectionBox.visible = true;
 			updateSelectionBox();
 		}
@@ -1982,8 +1985,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 	function updateSelectionBox()
 	{
-		var diffX:Float = FlxG.mouse.screenX - selectionStart.x;
-		var diffY:Float = FlxG.mouse.screenY - selectionStart.y;
+		var diffX:Float = FlxG.mouse.viewX - selectionStart.x;
+		var diffY:Float = FlxG.mouse.viewY - selectionStart.y;
 		selectionBox.setPosition(selectionStart.x, selectionStart.y);
 
 		if(diffX < 0) //Fixes negative X scale
@@ -2002,36 +2005,36 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 	function showOutput(message:String, isError:Bool = false)
 	{
-		// if (isError == true) {
-		// 	NotificationManager.instance.addNotification({
-		// 		title: "Error Notification",
-		// 		body: message,
-		// 		type: NotificationType.Error
-		// 	});
-		// 	FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
-		// } else {
-		// 	NotificationManager.instance.addNotification({
-		// 		title: "Successful Notification",
-		// 		body: message,
-		// 		type: NotificationType.Success
-		// 	});
-		// 	FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
-		// }
-
-		trace(message);
-		outputTxt.text = message;
-		outputTxt.y = FlxG.height - outputTxt.height - 30;
-		outputAlpha = 4;
-		if(isError)
-		{
+		if (isError == true) {
+			NotificationManager.instance.addNotification({
+				title: "Error Notification",
+				body: message,
+				type: NotificationType.Error
+			});
 			FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
-			outputTxt.color = FlxColor.RED;
-		}
-		else
-		{
+		} else {
+			NotificationManager.instance.addNotification({
+				title: "Successful Notification",
+				body: message,
+				type: NotificationType.Success
+			});
 			FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
-			outputTxt.color = FlxColor.WHITE;
 		}
+
+		// trace(message);
+		// outputTxt.text = message;
+		// outputTxt.y = FlxG.height - outputTxt.height - 30;
+		// outputAlpha = 4;
+		// if(isError)
+		// {
+		// 	FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
+		// 	outputTxt.color = FlxColor.RED;
+		// }
+		// else
+		// {
+		// 	FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
+		// 	outputTxt.color = FlxColor.WHITE;
+		// }
 	}
 	
 	private function onCustomNotification(_) {
@@ -2803,15 +2806,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			updateBF();
 			updateDAD();
 		});
-		var scaleChars = new PsychUINumericStepper(objX + 100, objY, 0.1, camChar.zoom, 0, 1, 1);
-		scaleChars.onValueChange = function () {
-			camChar.zoom = scaleChars.value;
-		};
-		removeChars = new PsychUICheckBox(objX + 200, objY, 'Remove Chars', 60, function () {
-			if (removeChars.checked == true) {hasBD = false;} else {hasBD = true;};
-			updateBF();
-			updateDAD();
-		});
 
 		tab_group.add(playbackSlider);
 		tab_group.add(mouseSnapCheckBox);
@@ -2835,8 +2829,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(opponentMuteCheckBox);
 
 		tab_group.add(resetChar);
-		tab_group.add(scaleChars);
-		tab_group.add(removeChars);
+		// tab_group.add(scaleChars);
+		// tab_group.add(removeChars);
 		}
 
 	var gameOverCharDropDown:PsychUIDropDownMenu;

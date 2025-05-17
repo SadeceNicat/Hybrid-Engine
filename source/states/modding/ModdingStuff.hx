@@ -20,7 +20,7 @@ class ModdingStuff {
 				else if (eventValue == "options") {
 					MusicBeatState.switchState(new OptionsState());
 				}
-				else if (eventValue == "achievement") {
+				else if (eventValue == "achievements") {
 					MusicBeatState.switchState(new AchievementsMenuState());
 				}
 				else if (eventValue == "mods") {

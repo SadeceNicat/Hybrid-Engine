@@ -526,7 +526,7 @@ class PlayState extends MusicBeatState
 		// 			new FunkinLua(folder + file);
 		// 		#end
 
-		// 		#if HSCRIPT_ALLOWED
+		// 		#if HSCRIPT_ALLOWEDF
 		// 		if(file.toLowerCase().endsWith('.hx'))
 		// 			initHScript(folder + file);
 		// 		#end

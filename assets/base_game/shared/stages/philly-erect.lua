@@ -1,16 +1,14 @@
 local lights = {
-	{"FFFFFF","0.39280048843116,0.2046151494395,0.43796646260436,0.090357945397706,0.33411672747388,0.47302947079174,1,0.73653302010557,0.6356448902077,0.6352469767555,0.64044138950976,1,278.68472923389,15.698450558133"},
-	{"FF214D","0.5789272832852,0.2046151494395,0.43796646260436,0.12959141116596,0.20600856969316,0,0.18164713866207,0.58166280890158,0.43584985631081,0,0,1,278.68472923389,15.698450558133"}, -- red
-	{"3C77FF","0.22892926562026,0.2046151494395,0.43796646260436,0.12959141116596,0.17406291116366,0,0.31964580918274,0.58640914589346,0.19296876883268,0.36430871414707,0.67365766110391,1,278.68472923389,15.698450558133"}, -- blue
-	{"DF3CFF","0.22892926562026,0.2046151494395,0.43796646260436,0.12959141116596,0.43082772827808,0,0.55774308677681,0.58640914589346,0.58806468479762,0.36430871414707,0.67365766110391,1,278.68472923389,15.698450558133"}, -- purple
-	{"FFCC3C","1,1,0.34653136658137,0,0.23925481774519,0,0,0.61004367391578,0.58322625727347,0.50233373671696,0,0.5782003677894,280.34541616198,19.702368975269"}, -- yello
-	{"47E8A2","0,0.18890908861763,0,0.12676066751505,0,0.23152006658076,0.012989151036336,0.58697983072797,0,0.56746073350748,0.10719831585735,0.5782003677894,280.34541616198,19.702368975269"} -- green
+	"FFFFFF",
+	"FF214D",
+	"3C77FF",
+	"DF3CFF",
+	"FFCC3C",
+	"47E8A2"
 }
 
 function changeColor()
-	local random = getRandomInt(1,#lights)
-	triggerEvent("Set RTX Data",lights[random][2])
-	doTweenColor("light", "light", lights[random][1], 0.05, "circOut")
+	doTweenColor("light", "light", lights[getRandomInt(1,#lights)], 0.05, "circOut")
 end
 
 function onCreatePost()
@@ -41,7 +39,17 @@ function onCreate()
 	addLuaSprite('light', false);
 	addLuaSprite('behindTrain', false);
 	addLuaSprite('street', false);
-	
-	
+end
 
+function onCreatePost()
+	if shadersEnabled == true then
+        initLuaShader('adjustColor')
+        for i, object in ipairs({'boyfriend', 'dad', 'gf', 'train'}) do
+            setSpriteShader(object, 'adjustColor')
+            setShaderFloat(object, 'hue', -26)
+            setShaderFloat(object, 'saturation', -16)
+            setShaderFloat(object, 'contrast', 0)
+            setShaderFloat(object, 'brightness', -5)
+        end
+	end
 end

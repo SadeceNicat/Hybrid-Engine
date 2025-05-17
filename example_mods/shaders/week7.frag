@@ -60,15 +60,16 @@ uniform vec4 innerShadowColor;
 uniform float innerShadowAngle;
 uniform float innerShadowDistance;
 
-float SAMPLEDIST = 2.0;
+float SAMPLEDIST = 5.0;
 		
 void main()
 {	
     vec2 uv = openfl_TextureCoordv.xy;
     vec4 spritecolor = flixel_texture2D(bitmap, uv);    
-    vec2 resFactor = 2.0 / openfl_TextureSize.xy;
+    vec2 resFactor = 1.0 / openfl_TextureSize.xy;
 
     
+    spritecolor.rgb = blendMultiply(spritecolor.rgb, satinColor.rgb, satinColor.a); //apply satin (but no blur)
 
     //inner shadow
     float offsetX = cos(innerShadowAngle);

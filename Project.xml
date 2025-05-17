@@ -133,6 +133,7 @@
 
 	<haxelib name="haxeui-core" />
 	<haxelib name="haxeui-flixel" />
+	
 	<haxelib name="flixel-text-input" />
  	<!-- <haxelib name="haxeui-openfl" />     I use this for small things because haxeui-flixel crashes the game. If I have optimization problems I remove it. -->
 
