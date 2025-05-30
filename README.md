@@ -1,18 +1,34 @@
 # Friday Night Funkin' - Hybrid Engine
 
+## Source Codes
+
+ - [Last Version](https://github.com/SadeceNicat/Hybrid-Engine)
+ - [Hybrid Engine 0.1](https://github.com/SadeceNicat/Hybrid-Engine/tree/Hybrid-Engine-0.1)
+
 ## Installation:
 
 Refer to [the Build Instructions](./BUILDING.md)
 
-## Customization:
+## Hybrid Engine 0.11 Roadmap
 
-if you wish to disable things like *Lua Scripts* or *Video Cutscenes*, you can read over to `Project.xml`
+### V-SLICE
 
-inside `Project.xml`, you will find several variables to customize Psych Engine to your liking
+- All Pico Mixes
+- All Erects
 
-to start you off, disabling Videos should be simple, simply Delete the line `"VIDEOS_ALLOWED"` or comment it out by wrapping the line in XML-like comments, like this `<!-- YOUR_LINE_HERE -->`
+### Editors
 
-same goes for *Lua Scripts*, comment out or delete the line with `LUA_ALLOWED`, this and other customization options are all available within the `Project.xml` file
+- Mod Creator
+- Song Creator
+- Custom Menu Editor
+- Custom Player Creator
+
+### Reworks
+
+- Master Editor Rework
+- Character Editor Rework
+- Week Editor Rework
+- Awards Rework
 
 ## Credits:
 * SadeceNicat - Head Developer, Programmer.
