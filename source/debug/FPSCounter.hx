@@ -36,7 +36,7 @@ class FPSCounter extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 14, color);
+		defaultTextFormat = new TextFormat(Paths.font("PhantomMuff.ttf"), 12, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -75,7 +75,7 @@ class FPSCounter extends TextField
 		if (isVis == true) {
 			text = 'FPS: ${currentFPS}'
 			+ '\nMemory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}'
-			+ '\nEngine Version: ${MainMenuState.hybridEngineVersion}';
+			+ '\nHybrid Engine Version: ${MainMenuState.hybridEngineVersion}';
 	
 			textColor = 0xFFFFFFFF;
 			if (currentFPS < FlxG.drawFramerate * 0.5)

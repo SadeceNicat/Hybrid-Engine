@@ -33,7 +33,7 @@ class MusicBeatSubstate extends FlxSubState
 	{
 		super();
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MusicBeatSubState/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/musicbeatsubstate/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 

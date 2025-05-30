@@ -275,7 +275,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
-					restartSong();
+					restartSong();	
 				case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;

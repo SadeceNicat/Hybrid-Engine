@@ -505,6 +505,8 @@ class NoteSplashEditorState extends MusicBeatState
     { 
         super.update(elapsed);
 
+        FlxG.mouse.visible = true;
+
         errorText.x = FlxG.width - errorText.width - 5;
 
         curText.text = 'Copied Offsets: ${Std.string(copiedOffset).replace(',', ', ')}\n';

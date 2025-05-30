@@ -2,8 +2,8 @@ package psychlua;
 
 import flixel.FlxBasic;
 import objects.Character;
-import psychlua.LuaUtils;
 import psychlua.CustomSubstate;
+import psychlua.LuaUtils;
 
 #if LUA_ALLOWED
 import psychlua.FunkinLua;
@@ -14,6 +14,8 @@ import crowplexus.iris.Iris;
 import crowplexus.iris.IrisConfig;
 import crowplexus.hscript.Expr.Error as IrisError;
 import crowplexus.hscript.Printer;
+
+import haxe.ValueException;
 
 typedef HScriptInfos = {
 	> haxe.PosInfos,
@@ -152,6 +154,7 @@ class HScript extends Iris
 		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
 		set('PsychCamera', backend.PsychCamera);
+		set('RGBSprite', objects.RGBSprite);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
@@ -176,6 +179,7 @@ class HScript extends Iris
 		#if flxanimate
 		set('FlxAnimate', FlxAnimate);
 		#end
+		set('DropShadowShader', shaders.DropShadowShader);
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic) {
@@ -539,6 +543,23 @@ class CustomInterp extends crowplexus.hscript.Interp
 	public function new()
 	{
 		super();
+	}
+
+	override function fcall(o:Dynamic, funcToRun:String, args:Array<Dynamic>):Dynamic {
+		for (_using in usings) {
+			var v = _using.call(o, funcToRun, args);
+			if (v != null)
+				return v;
+		}
+
+		var f = get(o, funcToRun);
+
+		if (f == null) {
+			Iris.error('Tried to call null function $funcToRun', posInfos());
+			return null;
+		}
+
+		return Reflect.callMethod(o, f, args);
 	}
 
 	override function resolve(id: String): Dynamic {

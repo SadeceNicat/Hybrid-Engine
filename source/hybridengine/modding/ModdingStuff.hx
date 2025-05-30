@@ -1,7 +1,9 @@
-package states.modding;
+package hybridengine.modding;
+
 import backend.Song;
 import backend.Highscore;
 import options.OptionsState;
+import states.*;
 
 class ModdingStuff {
 

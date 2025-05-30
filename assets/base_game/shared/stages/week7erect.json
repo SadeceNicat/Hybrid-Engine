@@ -25,39 +25,7 @@
 		0
 	],
 	"defaultZoom": 0.65,
-	"objects": [
-		{
-			"x": 753,
-			"y": 460,
-			"scale": [
-				1,
-				1
-			],
-			"image": "erect/bg",
-			"flipX": false,
-			"filters": 3,
-			"color": "FFFFFF",
-			"angle": 0,
-			"name": "sprite1",
-			"antialiasing": true,
-			"flipY": false,
-			"scroll": [
-				1,
-				1
-			],
-			"alpha": 1,
-			"type": "sprite"
-		},
-		{
-			"type": "gf"
-		},
-		{
-			"type": "dad"
-		},
-		{
-			"type": "boyfriend"
-		}
-	],
+	"objects": [],
 	"camera_speed": 0.5,
 	"directory": "week7",
 	"opponent": [

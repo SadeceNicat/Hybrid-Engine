@@ -2,7 +2,6 @@ package states.editors;
 
 import flixel.graphics.FlxGraphic;
 
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.util.FlxDestroyUtil;
 
 import openfl.net.FileReference;
@@ -73,6 +72,8 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 	override function create()
 	{
+		super.create();
+
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -126,7 +127,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		addCharacter();
 
-		cameraFollowPointer = new FlxSprite().loadGraphic(FlxGraphic.fromClass(GraphicCursorCross));
+		cameraFollowPointer = new FlxSprite();
 		cameraFollowPointer.setGraphicSize(40, 40);
 		cameraFollowPointer.updateHitbox();
 
@@ -185,12 +186,15 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		if(ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
 
-		super.create();
-
 		cursor = new FlxSprite();
         cursor.makeGraphic(15, 15, FlxColor.TRANSPARENT);
         cursor.loadGraphic(Paths.image("cursor/cursor-default"));
         FlxG.mouse.load(cursor.pixels);
+
+		new FlxTimer().start(0.1, function(t:FlxTimer)
+		{
+			reloadCharDrop(0, _char);
+		});
 	}
 
 	function addFileTab() {
@@ -477,28 +481,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		charDropDown = new PsychUIDropDownMenu(10, 30, [''], function(index:Int, intended:String)
 		{
-			if(intended == null || intended.length < 1) return;
-
-			var characterPath:String = 'characters/$intended.json';
-			var path:String = Paths.getPath(characterPath, TEXT, null, true);
-			#if MODS_ALLOWED
-			if (FileSystem.exists(path))
-			#else
-			if (Assets.exists(path))
-			#end
-			{
-				_char = intended;
-				check_player.checked = character.isPlayer;
-				addCharacter();
-				reloadCharacterOptions();
-				reloadCharacterDropDown();
-				updatePointerPos();
-			}
-			else
-			{
-				reloadCharacterDropDown();
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-			}
+			reloadCharDrop(index, intended);
 		});
 		reloadCharacterDropDown();
 		charDropDown.selectedLabel = _char;
@@ -508,6 +491,32 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		tab_group.add(reloadCharacter);
 		tab_group.add(templateCharacter);
 		tab_group.add(charDropDown);
+	}
+
+	public function reloadCharDrop(index:Int, intended:String)
+	{
+		if(intended == null || intended.length < 1) return;
+
+		var characterPath:String = 'characters/$intended.json';
+		var path:String = Paths.getPath(characterPath, TEXT, null, true);
+		#if MODS_ALLOWED
+		if (FileSystem.exists(path))
+		#else
+		if (Assets.exists(path))
+		#end
+		{
+			_char = intended;
+			check_player.checked = character.isPlayer;
+			addCharacter();
+			reloadCharacterOptions();
+			reloadCharacterDropDown();
+			updatePointerPos();
+		}
+		else
+		{
+			reloadCharacterDropDown();
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+		}
 	}
 
 	var animationDropDown:PsychUIDropDownMenu;

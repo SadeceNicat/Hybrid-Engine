@@ -13,7 +13,7 @@ class PsychUITab extends FlxSprite
 	{
 		super();
 		makeGraphic(1, 1, FlxColor.WHITE);
-		color = FlxColor.fromRGB(25,25,25);
+		color = FlxColor.fromRGB(40,40,40);
 		alpha = 1;
 
 		@:bypassAccessor this.name = name;

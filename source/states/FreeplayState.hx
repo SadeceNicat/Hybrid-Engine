@@ -15,14 +15,13 @@ import objects.MusicPlayer;
 import openfl.utils.Assets;
 import options.GameplayChangersSubstate;
 import psychlua.HScript;
-import states.modding.GameStuffs;
+import hybridengine.modding.GameStuffs;
 import substates.ResetScoreSubState;
 
 typedef TitleConf = {
 	var StartType:String;
 	var Where:String;
 }
-
 
 class FreeplayState extends MusicBeatState
 {
@@ -219,7 +218,7 @@ class FreeplayState extends MusicBeatState
         charSongs = CharacterSelectJson.getCharacterSongs(curChar);
 		charIgnoreSongs = CharacterSelectJson.getCharIgnoreSongs(curChar);
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/Freeplay/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/freeplay/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 

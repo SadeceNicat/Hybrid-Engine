@@ -5,7 +5,6 @@ import crowplexus.iris.Iris;
 import backend.Song;
 import backend.Highscore;
 import options.OptionsState;
-import states.modding.ModdingStuff;
 
 class CustomState extends MusicBeatState {
 
@@ -59,7 +58,7 @@ class CustomState extends MusicBeatState {
             currentState = "ErrorState";
         }
 
-        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/'+currentState+'/'))
+        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/'+currentState+'/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 

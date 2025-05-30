@@ -16,7 +16,8 @@ class MasterEditorMenu extends MusicBeatState
 		'Dialogue Editor',
 		'Dialogue Portrait Editor',
 		'Note Splash Editor',
-		"Player Creator"
+		"Player Creator",
+		"Custom Menu Editor"
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -123,6 +124,8 @@ class MasterEditorMenu extends MusicBeatState
 					MusicBeatState.switchState(new NoteSplashEditorState());
 				case 'Player Creator':
 					MusicBeatState.switchState(new PlayerCreator());
+				case 'Custom Menu Editor':
+					MusicBeatState.switchState(new CustomMenuEditor());
 			}
 			FlxG.sound.music.volume = 0;
 			FreeplayState.destroyFreeplayVocals();

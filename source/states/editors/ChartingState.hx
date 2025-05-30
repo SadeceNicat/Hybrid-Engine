@@ -30,9 +30,12 @@ import states.editors.content.MetaNote;
 import states.editors.content.Prompt;
 import states.editors.content.VSlice;
 import flixel.FlxObject;
+import flixel.FlxBasic;
 
 import haxe.ui.notifications.NotificationManager;
 import haxe.ui.notifications.NotificationType;
+
+import hybridengine.backend.Event;
 
 using DateTools;
 
@@ -84,7 +87,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
-		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"]
+		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
+		["Zoom Camera", "Value 1: Zoom Value\nValue 2: Time it takes to change fully in seconds."]
 	];
 	
 	public static var keysArray:Array<FlxKey> = [ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT]; //Used for Vortex Editor
@@ -136,6 +140,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 	var chartEditorSave:FlxSave;
 	var mainBox:PsychUIBox;
+	var eventBox:PsychUIBox;
 	var mainBoxPosition:FlxPoint = FlxPoint.get(920, 40);
 	var infoBox:PsychUIBox;
 	var infoBoxPosition:FlxPoint = FlxPoint.get(1000, 360);
@@ -174,6 +179,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var mustHitIndicator:FlxSprite;
 	var eventIcon:FlxSprite;
 	var icons:Array<HealthIcon> = [];
+
+	var eventLists:Array<Event> = [];
+	var eventUI:Array<FlxObject> = [];
+	var eventVals:Array<String> = [];
 
 	var events:Array<EventMetaNote> = [];
 	var notes:Array<MetaNote> = [];
@@ -324,7 +333,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 		FPSCounter.hideFPS();
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/ChartEditor/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/charteditor/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 
@@ -490,7 +499,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var iconY:Float = 50;
 		if(SHOW_EVENT_COLUMN)
 		{
-			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/charteditor/eventIconPE'));
+			eventIcon = new FlxSprite(0, iconY).loadGraphic(Paths.image('editors/eventIcons/defaultEventIcon'));
 			eventIcon.antialiasing = ClientPrefs.data.antialiasing;
 			eventIcon.alpha = 0.6;
 			eventIcon.setGraphicSize(30, 30);
@@ -559,12 +568,19 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		add(infoBox);
 		callOnHScript("onLoad",["infoBox",infoBox]);
 
-		mainBox = new PsychUIBox(mainBoxPosition.x, mainBoxPosition.y, 300, 330, ['Charting', 'Data', 'Events', 'Note', 'Section', 'Song']);
+		mainBox = new PsychUIBox(mainBoxPosition.x, mainBoxPosition.y, 300, 330, ['Charting', 'Data', 'Note', 'Section', 'Song']);
 		mainBox.selectedName = 'Song';
 		mainBox.scrollFactor.set();
 		mainBox.cameras = [camUI];
 		add(mainBox);
 		callOnHScript("onLoad",["mainBox",mainBox]);
+
+		eventBox = new PsychUIBox(20, 40, 300, 290, ['Hybrid Event (BETA)', 'Psych Event']);
+		eventBox.selectedName = 'Hybrid Event (BETA)';
+		eventBox.scrollFactor.set();
+		eventBox.cameras = [camUI];
+		add(eventBox);
+		callOnHScript("onLoad",["eventBox",eventBox]);
 
 		autoSaveIcon = new FlxSprite(50).loadGraphic(Paths.image('editors/charteditor/autosave'));
 		autoSaveIcon.screenCenter(Y);
@@ -612,7 +628,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		callOnHScript("onMainBoxPre",[]);
 		addChartingTab();
 		addDataTab();
-		addEventsTab();
+		addPsychEventTab();
+		addHybridEventTab();
 		addNoteTab();
 		addSectionTab();
 		addSongTab();
@@ -758,8 +775,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				gridColorsOther = [0xFF595959, 0xFF464646];
 			default:
 				bg.color = 0xFF303030;
-				gridColors = [0xFFDFDFDF, 0xFFBFBFBF];
-				gridColorsOther = [0xFF5F5F5F, 0xFF4A4A4A];
+				gridColors = [0xFF3F3F3F, 0xFF2F2F2F];
+				gridColorsOther = [0xFF1F1F1F, 0xFF111111];
 		}
 
 		if(theme != oldTheme)
@@ -1469,7 +1486,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			updateSelectionBox();
 		}
 		
-		if(FlxG.mouse.justPressed && (FlxG.mouse.overlaps(mainBox.bg) || FlxG.mouse.overlaps(infoBox.bg)))
+		if(FlxG.mouse.justPressed && (FlxG.mouse.overlaps(mainBox.bg) || FlxG.mouse.overlaps(infoBox.bg) || FlxG.mouse.overlaps(eventBox.bg)))
 			ignoreClickForThisFrame = true;
 
 		var minX:Float = gridBg.x;
@@ -1659,7 +1676,20 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 							trace('Added event at time: $strumTime');
 							var didAdd:Bool = false;
 
-							var eventAdded:EventMetaNote = createEvent([strumTime, [[eventsList[Std.int(Math.max(eventDropDown.selectedIndex, 0))][0], value1InputText.text, value2InputText.text, value3InputText.text]]]);
+							var value:Array<Dynamic> = [];
+							var icon:String = "defaultEventIcon";
+							if (eventBox.selectedName == "Hybrid Event (BETA)") {
+								// value = [strumTime, [[eventLists[Std.int(Math.max(hybridDropDown.selectedIndex, 0))].eventName, "", "", ""]], [
+								// 	icon,
+								// 	eventVals
+								// ]];
+								var hybridEvent:Event = eventLists[Std.int(Math.max(hybridDropDown.selectedIndex, 0))];
+								value = [strumTime, [[hybridEvent.eventName, hybridEvent.eventIcon, hybridEvent.eventVersion, eventVals]], "Hybrid Event"];
+							} else {
+								value = [strumTime, [[eventsList[Std.int(Math.max(eventDropDown.selectedIndex, 0))][0], value1InputText.text, value2InputText.text, value3InputText.text]]];
+							}
+
+							var eventAdded:EventMetaNote = createEvent(value);
 							for (num in sectionFirstEventID...events.length)
 							{
 								var event = events[num];
@@ -2005,36 +2035,36 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 	function showOutput(message:String, isError:Bool = false)
 	{
-		if (isError == true) {
-			NotificationManager.instance.addNotification({
-				title: "Error Notification",
-				body: message,
-				type: NotificationType.Error
-			});
-			FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
-		} else {
-			NotificationManager.instance.addNotification({
-				title: "Successful Notification",
-				body: message,
-				type: NotificationType.Success
-			});
-			FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
-		}
-
-		// trace(message);
-		// outputTxt.text = message;
-		// outputTxt.y = FlxG.height - outputTxt.height - 30;
-		// outputAlpha = 4;
-		// if(isError)
-		// {
+		// if (isError == true) {
+		// 	NotificationManager.instance.addNotification({
+		// 		title: "Error Notification",
+		// 		body: message,
+		// 		type: NotificationType.Error
+		// 	});
 		// 	FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
-		// 	outputTxt.color = FlxColor.RED;
-		// }
-		// else
-		// {
+		// } else {
+		// 	NotificationManager.instance.addNotification({
+		// 		title: "Successful Notification",
+		// 		body: message,
+		// 		type: NotificationType.Success
+		// 	});
 		// 	FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
-		// 	outputTxt.color = FlxColor.WHITE;
 		// }
+
+		trace(message);
+		outputTxt.text = message;
+		outputTxt.y = FlxG.height - outputTxt.height - 30;
+		outputAlpha = 4;
+		if(isError)
+		{
+			FlxG.sound.play(Paths.sound('chartingSounds/undo'), 0.6);
+			outputTxt.color = FlxColor.RED;
+		}
+		else
+		{
+			FlxG.sound.play(Paths.sound('chartingSounds/noteLay'), 0.6);
+			outputTxt.color = FlxColor.WHITE;
+		}
 	}
 	
 	private function onCustomNotification(_) {
@@ -2099,25 +2129,27 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		if(selectedNotes.length == 1 && selectedNotes[0].isEvent)
 		{
 			var eventNote:EventMetaNote = cast (selectedNotes[0], EventMetaNote);
-			curEventSelected = Std.int(FlxMath.bound(curEventSelected, 0, eventNote.events.length - 1));
-			selectedEventText.text = 'Selected Event: ${curEventSelected + 1} / ${eventNote.events.length}';
-			selectedEventText.visible = true;
-			
-			var myEvent:Array<String> = eventNote.events[curEventSelected];
-			if(myEvent != null)
-			{
-				var eventName:String = (myEvent[0] != null) ? myEvent[0] : '';
-				for (num => event in eventsList)
+			if (eventNote.eventIcon == "eventPsych") {
+				curEventSelected = Std.int(FlxMath.bound(curEventSelected, 0, eventNote.events.length - 1));
+				selectedEventText.text = 'Selected Event: ${curEventSelected + 1} / ${eventNote.events.length}';
+				selectedEventText.visible = true;
+				
+				var myEvent:Array<Dynamic> = eventNote.events[curEventSelected];
+				if(myEvent != null)
 				{
-					if(event[0] == eventName)
+					var eventName:String = (myEvent[0] != null) ? myEvent[0] : '';
+					for (num => event in eventsList)
 					{
-						eventDropDown.selectedIndex = num;
-						break;
+						if(event[0] == eventName)
+						{
+							eventDropDown.selectedIndex = num;
+							break;
+						}
 					}
+					value1InputText.text = (myEvent[1] != null) ? myEvent[1] : '';
+					value2InputText.text = (myEvent[2] != null) ? myEvent[2] : '';
+					value3InputText.text = (myEvent[3] != null) ? myEvent[3] : '';
 				}
-				value1InputText.text = (myEvent[1] != null) ? myEvent[1] : '';
-				value2InputText.text = (myEvent[2] != null) ? myEvent[2] : '';
-				value3InputText.text = (myEvent[3] != null) ? myEvent[3] : '';
 			}
 		}
 		else selectedEventText.visible = false;
@@ -2936,6 +2968,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	}
 
 	var eventDropDown:PsychUIDropDownMenu;
+	var hybridDropDown:PsychUIDropDownMenu;
 	var value1InputText:PsychUIInputText;
 	var value2InputText:PsychUIInputText;
 	var value3InputText:PsychUIInputText;
@@ -2944,9 +2977,9 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 	var eventsList:Array<Array<String>>;
 	var curEventSelected:Int = 0;
-	function addEventsTab()
+	function addPsychEventTab()
 	{
-		var tab_group = mainBox.getTab('Events').menu;
+		var tab_group = eventBox.getTab('Psych Event').menu;
 		var objX = 10;
 		var objY = 25;
 
@@ -3091,6 +3124,177 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(eventDropDown); //lowest priority to display properly
 	}
 
+	public function loadHybridEvents() {
+
+		var ignoreNewEvent:Map<String,Bool> = [];
+
+		ignoreNewEvent.set("Set Camera Target", true);
+		ignoreNewEvent.set("Run Haxe Code", true);
+
+		var eventHE:Event = new Event("Set Camera Target");
+		eventHE.eventData = eventHE.INIT_EVENT_PROP("INIT_EVENT_DATA", [
+            ["Target", EventValueTypes.GAME_CHARACTERS, "BOYFRIEND"],
+			["Time", EventValueTypes.FLOAT, 1, [0.05, 100]],
+			["EaseType", EventValueTypes.DROP_DOWN, "linear", [
+				"linear",
+				"backin", "backinout", "backout",
+				"bouncein", "bounceinout", "bounceout",
+				"circin", "circinout", "circout",
+				"cubein", "cubeinout", "cubeout",
+				"elasticin", "elasticinout", "elasticout",
+				"expoin", "expoinout", "expoout",
+				"quadin", "quadinout", "quadout",
+				"quartin", "quartinout", "quartout",
+				"quintin", "quintinout", "quintout",
+				"sinein", "sineinout", "sineout",
+				"smoothstepin", "smoothstepinout", "smoothstepout",
+				"smootherstepin", "smootherstepinout", "smootherstepout"
+			]],
+        ]);
+		eventLists.push(eventHE);
+
+		var eventHE:Event = new Event("Run Haxe Code");
+		eventHE.eventData = eventHE.INIT_EVENT_PROP("INIT_EVENT_DATA", [
+            ["SCRIPT", EventValueTypes.STRING, ""],
+        ]);
+		eventLists.push(eventHE);
+
+		for (directory in Mods.directoriesWithFile(Paths.getSharedPath(), "scripts/events/"))
+		{
+			for (file in FileSystem.readDirectory(directory))
+			{
+				if (ignoreNewEvent.exists(file)) continue;
+				var eventHE:Event = new Event(file);
+				eventLists.push(eventHE);
+			}
+		}
+	}
+
+	function addHybridEventTab()
+	{
+		var tab_group = eventBox.getTab('Hybrid Event (BETA)').menu;
+		var objX = 10;
+		var objY = 25;
+
+		loadHybridEvents();
+
+		var eventStringList:Array<String> = [];
+
+		for (event in eventLists)
+		{
+			eventStringList.push(event.eventName);
+		}
+
+		hybridDropDown = new PsychUIDropDownMenu(objX, objY, eventStringList, function(id:Int, character:String)
+		{
+			reloadEventBox(tab_group, id);
+		},230);
+
+		reloadEventBox(tab_group, 0);
+
+		tab_group.add(hybridDropDown); //lowest priority to display properly
+	}
+
+	public function reloadEventBox(tab_group:Dynamic, index:Int) {
+		var targetEvent:Event = eventLists[index];
+
+		var objX = 10;
+		var objY = 85;
+
+		for (ui in eventUI) { tab_group.remove(ui); }
+		eventUI = [];
+
+		eventVals = [
+			"",
+			"",
+			""
+		];
+
+		for (eventIndex in 0...targetEvent.eventData.length)
+		{
+			var eventData = targetEvent.eventData[eventIndex];
+			var type:EventValueTypes = eventData[1];
+
+			if (type == EventValueTypes.STRING) {
+				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
+				var inputText = new PsychUIInputText(objX, objY, 100, eventData[2], 8);
+				inputText.onChange = function(old:String, cur:String)
+				{
+					eventData[2] = cur;
+					eventVals[eventIndex] = cur;
+				};
+
+				eventUI.push(nameText);
+				eventUI.push(inputText);
+
+				eventVals[eventIndex] = eventData[2];
+
+			} else if (type == EventValueTypes.FLOAT) {
+				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
+				var stepper = new PsychUINumericStepper(objX, objY, 0.1, eventData[2], eventData[3][0], eventData[3][1], 2);
+				stepper.value = eventData[2];
+				stepper.onValueChange = function() {
+					eventData[2] = stepper.value;
+					eventVals[eventIndex] = Std.string(stepper.value);
+				};
+
+				eventUI.push(nameText);
+				eventUI.push(stepper);
+
+				eventVals[eventIndex] = Std.string(eventData[2]);
+
+			} else if (type == EventValueTypes.GAME_CHARACTERS) {
+				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
+				var characterDropDown = new PsychUIDropDownMenu(objX, objY, ["DAD","GF","BOYFRIEND"], function(id:Int, character:String)
+				{
+					eventData[2] = character;
+					eventVals[eventIndex] = character;
+				},120);
+
+
+				eventUI.push(nameText);
+				eventUI.push(characterDropDown);
+
+				characterDropDown.selectedLabel = eventData[2];
+				eventVals[eventIndex] = eventData[2];
+
+			} else if (type == EventValueTypes.DROP_DOWN) {
+				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
+				var dropDown = new PsychUIDropDownMenu(objX, objY, eventData[3], function(id:Int, value:String)
+				{
+					eventData[2] = value;
+					eventVals[eventIndex] = value;
+				}, 150);
+
+				eventUI.push(nameText);
+				eventUI.push(dropDown);
+
+				dropDown.selectedLabel = eventData[2];
+				eventVals[eventIndex] = eventData[2];
+
+			} else if (type == EventValueTypes.BOOLEAN) {
+				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
+				var checkBoxCur = new PsychUICheckBox(objX, objY, "", 80);
+				checkBoxCur.onClick = function()
+				{
+					eventData[2] = checkBoxCur.checked;
+					eventVals[eventIndex] = Std.string(checkBoxCur.checked);
+				};
+
+				checkBoxCur.checked = eventData[2];
+
+				eventUI.push(nameText);
+				eventUI.push(checkBoxCur);
+
+			}
+
+			objY += 50;
+		}
+
+		eventUI.reverse();
+		for (ui in eventUI) { tab_group.add(ui); }
+	}
+	
 	var susLengthLastVal:Float = 0; //used for multiple notes selected
 	var susLengthStepper:PsychUINumericStepper;
 	var strumTimeStepper:PsychUINumericStepper;

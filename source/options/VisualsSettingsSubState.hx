@@ -95,6 +95,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeStrum;
 
+		var option:Option = new Option('Strum Background Alpha',
+		'How much transparent should the Strum Background be.',
+		'strumBackgroundAlpha',
+		PERCENT);
+		addOption(option);
+
 		var option:Option = new Option('V-Slice HUD',
 			'If checked, enables the V-Slice HUD.',
 			'vanillaHUD',

@@ -8,6 +8,7 @@ class MetaNote extends Note
 {
 	public static var noteTypeTexts:Map<Int, FlxText> = [];
 	public var isEvent:Bool = false;
+	public var isHybridEvent:Bool = false;
 	public var songData:Array<Dynamic>;
 	public var sustainSprite:FlxSprite;
 	public var chartY:Float = 0;
@@ -138,14 +139,24 @@ class MetaNote extends Note
 class EventMetaNote extends MetaNote
 {
 	public var eventText:FlxText;
+	public var eventIcon:String = 'eventPsych';
+
 	public function new(time:Float, eventData:Dynamic)
 	{
 		super(time, -1, eventData);
 		this.isEvent = true;
+		if (eventData[2] == "Hybrid Event") {
+			this.isHybridEvent = true;
+			events = eventData[1];
+			eventIcon = eventData[1][0][1];
+		} else {
+			events = eventData[1];
+			eventIcon = "eventPsych";
+		}
 		events = eventData[1];
 		//trace('events: $events');
 		
-		loadGraphic(Paths.image('editors/charteditor/eventIcon'));
+		loadGraphic(Paths.image('editors/eventIcons/'+eventIcon));
 		setGraphicSize(ChartingState.GRID_SIZE);
 		updateHitbox();
 
@@ -168,14 +179,19 @@ class EventMetaNote extends MetaNote
 
 	override function setSustainLength(v:Float, stepCrochet:Float, zoom:Float = 1) {}
 
-	public var events:Array<Array<String>>;
+	public var events:Array<Array<Dynamic>>;
 	public function updateEventText()
 	{
 		var myTime:Float = Math.floor(this.strumTime);
 		if(events.length == 1)
 		{
-			var event = events[0];
-			eventText.text = 'Event: ${event[0]} ($myTime ms)\nValue 1: ${event[1]}\nValue 2: ${event[2]}\nValue 3: ${event[3]}';
+			if (isHybridEvent == true) {
+				var event = events[0];
+				eventText.text = 'Event: ${event[0]} ($myTime ms)\nValues: ${Std.string(event[3])}';
+			} else {
+				var event = events[0];
+				eventText.text = 'Event: ${event[0]} ($myTime ms)\nValue 1: ${event[1]}\nValue 2: ${event[2]}\nValue 3: ${event[3]}';
+			}
 		}
 		else if(events.length > 1)
 		{

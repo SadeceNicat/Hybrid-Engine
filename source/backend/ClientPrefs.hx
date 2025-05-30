@@ -30,6 +30,7 @@ import states.TitleState;
 	public var hideHud:Bool = false;
 	public var noteOffset:Int = 0;
 	public var vanillaHUD:Bool = false;
+	public var strumBackgroundAlpha:Float = 0;
 	public var hideWaveforms:Bool = false;
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],

@@ -5,7 +5,6 @@ import objects.AttachedSprite;
 import psychlua.HScript;
 import crowplexus.iris.Iris;
 #end
-import states.modding.ModdingStuff;
 
 class CreditsState extends MusicBeatState
 {
@@ -24,7 +23,6 @@ class CreditsState extends MusicBeatState
 		["SadeceNicat",		"sadecenicat",		"Main Programmer and Head of Hybrid Engine",					"https://sadecenicat.com",	"4B8EFF"],
 		["MolShuggleBeef",		"akif",		"Programmer",					"https://x.com/DemonMol",	"FCA460"],
 		["Shinveritt",		"furi",		"Main Menu Artist",					"https://x.com/FuriShine",	"FCEC60"],
-		["ErennP",		"erennp",		"Hybrid Engine Logo",					"https://x.com/erennp1237",	"FF9A25"],
 		["Psych Engine Team"],
 		["Shadow Mario",		"shadowmario",		"Main Programmer and Head of Psych Engine",					"https://ko-fi.com/shadowmario",	"444444"],
 		["Riveren",				"riveren",			"Main Artist/Animator of Psych Engine",						"https://x.com/riverennn",			"14967B"],
@@ -34,7 +32,6 @@ class CreditsState extends MusicBeatState
 		[""],
 		["Engine Contributors"],
 		["BiroxSt",			"face",		"Hybrid Engine LOGO",				"https://x.com/biroxisdumb",	"E83D98"],
-		["Cabby the Cat",			"cat",		"Hold Confirm",				"https://x.com/CabbyTheCat",	"E83D98"],
 		["TheZoroForce240",			"face",		"RTX Shader",				"https://gamebanana.com/members/1708748",	"FFFFFF"],
 		["crowplexus",			"crowplexus",		"HScript Iris, Input System v3, and Other PRs",				"https://github.com/crowplexus",	"CFCFCF"],
 		["Kamizeta",			"kamizeta",			"Creator of Pessy, Psych Engine's mascot.",				"https://www.instagram.com/cewweey/",	"D21C11"],
@@ -54,9 +51,6 @@ class CreditsState extends MusicBeatState
 		["PhantomArcade",		"phantomarcade",	"Animator of Friday Night Funkin'",							"https://x.com/PhantomArcade3K",	"FADC45"],
 		["evilsk8r",			"evilsk8r",			"Artist of Friday Night Funkin'",							"https://x.com/evilsk8r",			"5ABD4B"],
 		["kawaisprite",			"kawaisprite",		"Composer of Friday Night Funkin'",							"https://x.com/kawaisprite",		"378FC7"],
-		[""],
-		["Psych Engine Discord"],
-		["Join the Psych Ward!", "discord", "", "https://discord.gg/2ka77eMXDv", "5165F6"]
 	];
 
 	var offsetThing:Float = -75;
@@ -92,7 +86,7 @@ class CreditsState extends MusicBeatState
 	override function create()
 	{
 		
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/CreditsState/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/creditsstate/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 				FlxG.save.data.menuSong = false;

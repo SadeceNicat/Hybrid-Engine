@@ -12,6 +12,8 @@ import haxe.Json;
 import backend.Song;
 import states.stages.objects.TankmenBG;
 
+import managers.CharacterManager;
+
 typedef CharacterFile = {
 	var animations:Array<AnimArray>;
 	var image:String;
@@ -44,6 +46,8 @@ class Character extends FlxSprite
 	 * In case a character is missing, it will use this on its place
 	**/
 	public static final DEFAULT_CHARACTER:String = 'bf';
+
+	public var CHARACTER_TYPE:CharacterType = CharacterType.NONE; 
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;

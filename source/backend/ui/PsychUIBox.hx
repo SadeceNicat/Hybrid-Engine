@@ -25,17 +25,17 @@ class PsychUIBox extends FlxSpriteGroup
 	public var bg:FlxSprite;
 
 	public var selectedStyle:UIStyleData = {
-		bgColor: FlxColor.fromRGB(60,120,240),
+		bgColor: FlxColor.fromRGB(99,148,245),
 		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
 	public var hoverStyle:UIStyleData = {
-		bgColor: FlxColor.fromRGB(91,170,249),
+		bgColor: FlxColor.fromRGB(167,192,242),
 		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
 	public var unselectedStyle:UIStyleData = {
-		bgColor: FlxColor.fromRGB(45,45,45),
+		bgColor: FlxColor.fromRGB(55,55,55),
 		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
@@ -52,8 +52,8 @@ class PsychUIBox extends FlxSpriteGroup
 		tabHeight = tabH;
 		
 		bg = new FlxSprite().makeGraphic(1, 1, FlxColor.WHITE);
-		bg.color = FlxColor.fromRGB(15,15,15);
-		bg.alpha = 0.9;
+		bg.color = FlxColor.fromRGB(37,37,37);
+		bg.alpha = 1;
 		add(bg);
 
 		this.isAuto = AutoSize;

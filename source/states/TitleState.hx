@@ -27,6 +27,8 @@ import states.MainMenuState;
 import crowplexus.iris.Iris;
 import psychlua.HScript;
 
+import states.editors.ChartingState;
+
 #if GAMEJOLT_ALLOWED
 import hxgamejolt.GameJolt;
 #end
@@ -244,6 +246,8 @@ class TitleState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
+		MusicBeatState.switchState(new ChartingState());
+
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
@@ -280,7 +284,7 @@ class TitleState extends MusicBeatState
 		loadTransitionSettings(); loadStartType(); loadConfig(); loadStickerConfig();
 		loadJsonData();
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/mainmenu/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 				FlxG.save.data.menuSong = false;
@@ -303,7 +307,7 @@ class TitleState extends MusicBeatState
 		Conductor.bpm = musicBPM;
 
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/TitleState/'))
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/titlestate/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 

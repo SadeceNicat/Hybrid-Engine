@@ -1,53 +1,45 @@
 #if LUA_ALLOWED
 package psychlua;
 
-import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
-
-import openfl.Lib;
-import openfl.utils.Assets;
-import openfl.display.BitmapData;
+import backend.WeekData;
+import cutscenes.DialogueBoxPsych;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxState;
-import lime.system.Clipboard;
-import states.editors.content.PsychJsonPrinter;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxSpriteUtil;
+import haxe.Json;
+import lime.system.Clipboard;
 import lime.ui.Haptic;
-
+import objects.Character;
+import objects.Note;
+import objects.NoteSplash;
+import objects.StrumNote;
+import openfl.Lib;
+import openfl.display.BitmapData;
+import openfl.utils.Assets;
+import psychlua.DebugLuaText;
+import psychlua.LuaUtils.LuaTweenOptions;
+import psychlua.LuaUtils;
+import psychlua.ModchartSprite;
+import states.FreeplayState;
+import states.MainMenuState;
+import states.StoryMenuState;
+import states.editors.content.PsychJsonPrinter;
+import substates.GameOverSubstate;
+import substates.PauseSubState;
+import flixel.util.FlxCollision;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
 #end
 
-import cutscenes.DialogueBoxPsych;
-
-import objects.StrumNote;
-import objects.Note;
-import objects.NoteSplash;
-import objects.Character;
-
-import states.MainMenuState;
-import states.StoryMenuState;
-import states.FreeplayState;
-
-import substates.PauseSubState;
-import substates.GameOverSubstate;
-
-import psychlua.LuaUtils;
-import psychlua.LuaUtils.LuaTweenOptions;
 #if HSCRIPT_ALLOWED
 import psychlua.HScript;
-import states.modding.ModdingStuff;
 #end
-import psychlua.DebugLuaText;
-import psychlua.ModchartSprite;
-
-import flixel.input.keyboard.FlxKey;
-import flixel.input.gamepad.FlxGamepadInputID;
-
-import haxe.Json;
 
 class FunkinLua {
 	public var lua:State = null;
@@ -1279,6 +1271,24 @@ class FunkinLua {
 			luaTrace("screenCenter: Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
 		});
 
+		Lua_helper.add_callback(lua, "pixelPerfectCheck", function(obj1:String, obj2:String) {
+			var namesArray:Array<String> = [obj1, obj2];
+			var objectsArray:Array<FlxSprite> = [];
+			for (i in 0...namesArray.length)
+			{
+				var real:Dynamic = game.getLuaObject(namesArray[i]);
+				if(real != null)
+					if (real is FlxSprite) {
+						objectsArray.push(real);
+					}
+				else
+					if (real is FlxSprite) {
+						objectsArray.push(Reflect.getProperty(LuaUtils.getTargetInstance(), namesArray[i]));
+					}
+			}
+			return (!objectsArray.contains(null) && FlxCollision.pixelPerfectCheck(objectsArray[0], objectsArray[1]) );
+		});
+
 		Lua_helper.add_callback(lua, "objectsOverlap", function(obj1:String, obj2:String) {
 			var namesArray:Array<String> = [obj1, obj2];
 			var objectsArray:Array<FlxBasic> = [];
@@ -1292,6 +1302,7 @@ class FunkinLua {
 			}
 			return (!objectsArray.contains(null) && FlxG.overlap(objectsArray[0], objectsArray[1]));
 		});
+
 
 		Lua_helper.add_callback(lua, "getPixelColor", function(obj:String, x:Int, y:Int) {
 			var split:Array<String> = obj.split('.');

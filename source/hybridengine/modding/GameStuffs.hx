@@ -1,4 +1,4 @@
-package states.modding;
+package hybridengine.modding;
 
 class GameStuffs { // programming war crimes
 	

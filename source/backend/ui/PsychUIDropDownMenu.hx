@@ -225,8 +225,8 @@ class PsychUIDropDownItem extends FlxSpriteGroup
 		bgAlpha: 1
 	};
 	public var normalStyle:UIStyleData = {
-		bgColor: FlxColor.WHITE,
-		textColor: FlxColor.BLACK,
+		bgColor: FlxColor.fromRGB(80, 80, 80),
+		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
 
@@ -242,7 +242,7 @@ class PsychUIDropDownItem extends FlxSpriteGroup
 		add(bg);
 
 		text = new FlxText(0, 0, width, 8);
-		text.color = FlxColor.BLACK;
+		text.color = FlxColor.WHITE;
 		add(text);
 	}
 

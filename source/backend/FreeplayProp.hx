@@ -5,6 +5,7 @@ typedef MetadataProp = {
     var charter:String;
     var artist:String;
     var ratings:Dynamic;
+    var hasQuickRestart:Null<Bool>;
 }
 
 class FreeplayProp {
@@ -15,6 +16,7 @@ class FreeplayProp {
     public var songMetadataErect:MetadataProp;
     public var data:String;
     public var dataErect:String;
+    public var hasQuickRestart:Null<Bool>;
     public function new(songName:String) {
         this.songName = songName;
 
@@ -41,7 +43,8 @@ class FreeplayProp {
                     album: "placeholder",
                     charter: "",
                     artist: "",
-                    ratings: new Map<String, Int>()
+                    ratings: new Map<String, Int>(),
+                    hasQuickRestart: false
                 };
             }
         }
@@ -65,9 +68,16 @@ class FreeplayProp {
                     album: "placeholder",
                     charter: "",
                     artist: "",
-                    ratings: new Map<String, Int>()
+                    ratings: new Map<String, Int>(),
+                    hasQuickRestart: false
                 };
             }
+        }
+
+        if (hasQuickRestart == null) {
+            hasQuickRestart = false;
+        } else {
+            hasQuickRestart = songMetadata.hasQuickRestart;
         }
     }
 }

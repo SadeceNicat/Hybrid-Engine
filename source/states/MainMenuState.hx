@@ -1,15 +1,14 @@
 package states;
 
-import psychlua.FunkinLua;
 import crowplexus.iris.Iris;
 import debug.FPSCounter;
 import flixel.FlxObject;
 import flixel.effects.FlxFlicker;
 import lime.app.Application;
 import options.OptionsState;
+import psychlua.FunkinLua;
 import psychlua.HScript;
 import states.editors.MasterEditorMenu;
-import states.modding.ModdingStuff;
 
 class MainMenuState extends MusicBeatState {
     // Configuration
@@ -79,7 +78,7 @@ class MainMenuState extends MusicBeatState {
     #end
 
     function loadScripts() {
-        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/HaxeStates/MainMenu/'))
+        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/states/mainmenu/'))
             for (file in FileSystem.readDirectory(folder)) {
                 #if HSCRIPT_ALLOWED if (file.toLowerCase().endsWith('.hx')) { initHScript(folder + file); } #end 
                 #if LUA_ALLOWED if (file.toLowerCase().endsWith('.lua')) { initLua(folder + file); } #end 

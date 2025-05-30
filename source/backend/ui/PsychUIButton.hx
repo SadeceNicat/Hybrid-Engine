@@ -15,12 +15,12 @@ class PsychUIButton extends FlxSpriteGroup
 	public var onClick:Void->Void;
 	
 	public var clickStyle:UIStyleData = {
-		bgColor: FlxColor.fromRGB(60,120,240),
+		bgColor: FlxColor.fromRGB(99,148,245),
 		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
 	public var hoverStyle:UIStyleData = {
-		bgColor: FlxColor.fromRGB(91,170,249),
+		bgColor: FlxColor.fromRGB(167,192,242),
 		textColor: FlxColor.WHITE,
 		bgAlpha: 1
 	};
@@ -36,7 +36,7 @@ class PsychUIButton extends FlxSpriteGroup
 		bg = new FlxSprite().makeGraphic(1, 1, FlxColor.WHITE);
 		add(bg);
 		bg.color = 0xFFAAAAAA;
-		bg.alpha = 0.6;
+		bg.alpha = 0.95;
 
 		text = new FlxText(0, 0, 1, '');
 		text.alignment = CENTER;
