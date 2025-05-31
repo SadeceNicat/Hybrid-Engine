@@ -21,8 +21,8 @@ function onHybridEvent(eventName:String, eventData:Array<Dynamic>, engineVersion
             game.cameraSpeed = 100;
             if (eventData[0] == "BOYFRIEND") {
                 FlxTween.tween(camFollow, { 
-                    x: boyfriend.getMidpoint().x - 100 - (boyfriend.cameraPosition[0] + boyfriendCameraOffset[0]),
-                    y: boyfriend.getMidpoint().y - 100 + (boyfriend.cameraPosition[1] - boyfriendCameraOffset[1]),
+                    x: boyfriend.getMidpoint().x - 100 - (boyfriend.cameraPosition[0] - boyfriendCameraOffset[0]),
+                    y: boyfriend.getMidpoint().y - 100 + (boyfriend.cameraPosition[1] + boyfriendCameraOffset[1]),
                 }, Std.parseFloat(eventData[1]), {ease: LuaUtils.getTweenEaseByString(eventData[2])});
             } else if (eventData[0] == "GF") {
                 FlxTween.tween(camFollow, { 

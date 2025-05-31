@@ -3199,12 +3199,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
         ]);
 		eventLists.push(eventHE);
 
-		var eventHE:Event = new Event("Run Haxe Code");
-		eventHE.eventData = eventHE.INIT_EVENT_PROP("INIT_EVENT_DATA", [
-            ["SCRIPT", EventValueTypes.STRING, ""],
-        ]);
-		eventLists.push(eventHE);
-
 		for (directory in Mods.directoriesWithFile(Paths.getSharedPath(), "scripts/events/"))
 		{
 			for (file in FileSystem.readDirectory(directory))

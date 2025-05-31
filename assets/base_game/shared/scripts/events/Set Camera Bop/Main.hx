@@ -25,7 +25,7 @@ function onHybridEvent(eventName:String, eventData:Array<Dynamic>, engineVersion
 function onStepHit() {
     if (hasCameraBop) {
         if (curStep % step == 0) {
-            triggerEvent("Add Camera Zoom", Std.string(zoomAmount), "", "");
+            triggerEvent("Add Camera Zoom", Std.string(zoomAmount * 0.3), "0", "0");
         }
     }
 }

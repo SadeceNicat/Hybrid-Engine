@@ -2531,8 +2531,8 @@ class PlayState extends MusicBeatState
 		{
 			if(boyfriend == null) return;
 			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
-			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+			camFollow.x -= boyfriend.cameraPosition[0] + boyfriendCameraOffset[0];
+			camFollow.y += boyfriend.cameraPosition[1] - boyfriendCameraOffset[1];
 
 			if (songName == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
 			{
