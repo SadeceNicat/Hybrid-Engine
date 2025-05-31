@@ -363,7 +363,7 @@ class ModsMenuState extends MusicBeatState
 
 			persistentUpdate = false;
 			FlxG.autoPause = ClientPrefs.data.autoPause;
-			FlxG.mouse.visible = false;
+			FlxG.mouse.visible = true;
 			return;
 		}
 
