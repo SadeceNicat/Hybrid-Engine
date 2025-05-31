@@ -104,6 +104,7 @@ function onUpdate(elapsed:Float) {
 }
 
 function onEvent(eventName:String,eventValue1:String) {
+    debugPrint(eventName);
     if (eventName == "Philly Glow" ) {
         FlxTween.cancelTweensOf(blackSpr);
         if (eventValue1 == "1") {
@@ -124,6 +125,13 @@ function onSpawnNote(daNote:Note):Void {
         if (curBeat >= 284) {
             smoothNotes = true;
             randomNoteSpeed = true;
+        }
+    } else if (songName == "darnell" && storyDifficultyText == "nightmare" || storyDifficultyText == "erect") {
+        if (curBeat == 192) {
+            smoothNotes = true;
+        }
+        if (curBeat == 256) {
+            smoothNotes = false;
         }
     }
   if (smoothNotes == true) {
