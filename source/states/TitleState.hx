@@ -246,8 +246,6 @@ class TitleState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
-		MusicBeatState.switchState(new ChartingState());
-
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
