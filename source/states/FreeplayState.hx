@@ -595,7 +595,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 		
-		#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
+		// #if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
 		stopMusicPlay = true;
 
 		destroyFreeplayVocals();

@@ -140,6 +140,7 @@ class EventMetaNote extends MetaNote
 {
 	public var eventText:FlxText;
 	public var eventIcon:String = 'eventPsych';
+	public var eventType:String = "Psych";
 
 	public function new(time:Float, eventData:Dynamic)
 	{
@@ -149,9 +150,11 @@ class EventMetaNote extends MetaNote
 			this.isHybridEvent = true;
 			events = eventData[1];
 			eventIcon = eventData[1][0][1];
+			eventType = "Hybrid";
 		} else {
 			events = eventData[1];
 			eventIcon = "eventPsych";
+			eventType = "Psych";
 		}
 		events = eventData[1];
 		//trace('events: $events');
@@ -199,6 +202,14 @@ class EventMetaNote extends MetaNote
 			eventText.text = '${events.length} Events ($myTime ms):\n${eventNames.join(', ')}';
 		}
 		else eventText.text = 'ERROR FAILSAFE';
+	}
+
+	public function updateIcon() {
+		if (eventIcon != null) {
+			loadGraphic(Paths.image('editors/eventIcons/'+eventIcon));
+			setGraphicSize(ChartingState.GRID_SIZE);
+			updateHitbox();
+		}
 	}
 
 	override function destroy()

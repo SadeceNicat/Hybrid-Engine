@@ -1684,7 +1684,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 								// 	eventVals
 								// ]];
 								var hybridEvent:Event = eventLists[Std.int(Math.max(hybridDropDown.selectedIndex, 0))];
-								value = [strumTime, [[hybridEvent.eventName, hybridEvent.eventIcon, hybridEvent.eventVersion, eventVals]], "Hybrid Event"];
+								var eventValsCopy:Array<String> = eventVals.copy();
+								value = [strumTime, [[hybridEvent.eventName, hybridEvent.eventIcon, hybridEvent.eventVersion, eventValsCopy]], "Hybrid Event"];
 							} else {
 								value = [strumTime, [[eventsList[Std.int(Math.max(eventDropDown.selectedIndex, 0))][0], value1InputText.text, value2InputText.text, value3InputText.text]]];
 							}
@@ -1851,7 +1852,9 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 		outputTxt.alpha = outputAlpha;
 		outputTxt.visible = (outputAlpha > 0);
-		FlxG.camera.scroll.y = scrollY;
+		var oldScrollY = FlxG.camera.scroll.y;
+		
+		FlxG.camera.scroll.y = FlxMath.lerp(oldScrollY, scrollY, 0.1);
 		lastFocus = PsychUIInputText.focusOn;
 	}
 
@@ -2129,30 +2132,72 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		if(selectedNotes.length == 1 && selectedNotes[0].isEvent)
 		{
 			var eventNote:EventMetaNote = cast (selectedNotes[0], EventMetaNote);
-			if (eventNote.eventIcon == "eventPsych") {
-				curEventSelected = Std.int(FlxMath.bound(curEventSelected, 0, eventNote.events.length - 1));
-				selectedEventText.text = 'Selected Event: ${curEventSelected + 1} / ${eventNote.events.length}';
-				selectedEventText.visible = true;
-				
-				var myEvent:Array<Dynamic> = eventNote.events[curEventSelected];
-				if(myEvent != null)
-				{
-					var eventName:String = (myEvent[0] != null) ? myEvent[0] : '';
-					for (num => event in eventsList)
-					{
-						if(event[0] == eventName)
+			if (mainBox.selectedName == "Hybrid Event (BETA)") {
+
+			} else {
+				if (eventNote.eventIcon == "eventPsych") {
+						curEventSelected = Std.int(FlxMath.bound(curEventSelected, 0, eventNote.events.length - 1));
+						selectedEventText.text = 'Selected Event: ${curEventSelected + 1} / ${eventNote.events.length}';
+						selectedEventText.visible = true;
+						
+						var myEvent:Array<Dynamic> = eventNote.events[curEventSelected];
+						if(myEvent != null)
 						{
-							eventDropDown.selectedIndex = num;
-							break;
+							var eventName:String = (myEvent[0] != null) ? myEvent[0] : '';
+							for (num => event in eventsList)
+							{
+								if(event[0] == eventName)
+								{
+									eventDropDown.selectedIndex = num;
+									break;
+								}
+							}
+							value1InputText.text = (myEvent[1] != null) ? myEvent[1] : '';
+							value2InputText.text = (myEvent[2] != null) ? myEvent[2] : '';
+							value3InputText.text = (myEvent[3] != null) ? myEvent[3] : '';
 						}
+						trace("BUNE OLLUUUUM");
 					}
-					value1InputText.text = (myEvent[1] != null) ? myEvent[1] : '';
-					value2InputText.text = (myEvent[2] != null) ? myEvent[2] : '';
-					value3InputText.text = (myEvent[3] != null) ? myEvent[3] : '';
 				}
 			}
-		}
-		else selectedEventText.visible = false;
+	}
+
+	public function updateHybridEvent() {
+			if(selectedNotes.length > 1)
+			{
+				for (note in selectedNotes)
+				{
+					if(note == null || !note.isEvent) continue;
+
+					var hybridEvent:Event = eventLists[Std.int(Math.max(hybridDropDown.selectedIndex, 0))];
+					var event:EventMetaNote = cast (note, EventMetaNote);
+					var eventValsCopy:Dynamic = eventVals.copy();
+					event.events[0][0] = hybridDropDown.selectedLabel;
+					event.events[0][1] = hybridEvent.eventIcon;
+					event.events[0][2] = hybridEvent.eventVersion;
+					event.events[0][3] = eventValsCopy;
+
+					event.eventIcon = hybridEvent.eventIcon;
+
+					event.updateIcon();
+					event.updateEventText();
+					trace("TOPLUUU");
+				}
+			} else if(selectedNotes.length == 1 && selectedNotes[0].isEvent)
+			{
+				var hybridEvent:Event = eventLists[Std.int(Math.max(hybridDropDown.selectedIndex, 0))];
+				var event:EventMetaNote = cast (selectedNotes[0], EventMetaNote);
+				var eventValsCopy:Dynamic = eventVals.copy();
+				event.events[0][0] = hybridDropDown.selectedLabel;
+				event.events[0][1] = hybridEvent.eventIcon;
+				event.events[0][2] = hybridEvent.eventVersion;
+				event.events[0][3] = eventValsCopy;
+
+				event.eventIcon = hybridEvent.eventIcon;
+
+				event.updateIcon();
+				event.updateEventText();
+			}
 	}
 
 	function createGrids()
@@ -3136,6 +3181,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
             ["Target", EventValueTypes.GAME_CHARACTERS, "BOYFRIEND"],
 			["Time", EventValueTypes.FLOAT, 1, [0.05, 100]],
 			["EaseType", EventValueTypes.DROP_DOWN, "linear", [
+				"classic",
 				"linear",
 				"backin", "backinout", "backout",
 				"bouncein", "bounceinout", "bounceout",
@@ -3188,6 +3234,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		hybridDropDown = new PsychUIDropDownMenu(objX, objY, eventStringList, function(id:Int, character:String)
 		{
 			reloadEventBox(tab_group, id);
+			updateHybridEvent();
 		},230);
 
 		reloadEventBox(tab_group, 0);
@@ -3210,6 +3257,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			""
 		];
 
+		for (i in eventLists) {
+			trace(i.eventData);
+		}
+
 		for (eventIndex in 0...targetEvent.eventData.length)
 		{
 			var eventData = targetEvent.eventData[eventIndex];
@@ -3220,8 +3271,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				var inputText = new PsychUIInputText(objX, objY, 100, eventData[2], 8);
 				inputText.onChange = function(old:String, cur:String)
 				{
-					eventData[2] = cur;
 					eventVals[eventIndex] = cur;
+					updateHybridEvent();
 				};
 
 				eventUI.push(nameText);
@@ -3234,8 +3285,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				var stepper = new PsychUINumericStepper(objX, objY, 0.1, eventData[2], eventData[3][0], eventData[3][1], 2);
 				stepper.value = eventData[2];
 				stepper.onValueChange = function() {
-					eventData[2] = stepper.value;
 					eventVals[eventIndex] = Std.string(stepper.value);
+					updateHybridEvent();
 				};
 
 				eventUI.push(nameText);
@@ -3247,8 +3298,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
 				var characterDropDown = new PsychUIDropDownMenu(objX, objY, ["DAD","GF","BOYFRIEND"], function(id:Int, character:String)
 				{
-					eventData[2] = character;
 					eventVals[eventIndex] = character;
+					updateHybridEvent();
 				},120);
 
 
@@ -3262,8 +3313,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				var nameText = new FlxText(objX, objY - 15, 80, eventData[0]+":");
 				var dropDown = new PsychUIDropDownMenu(objX, objY, eventData[3], function(id:Int, value:String)
 				{
-					eventData[2] = value;
 					eventVals[eventIndex] = value;
+					updateHybridEvent();
 				}, 150);
 
 				eventUI.push(nameText);
@@ -3277,8 +3328,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				var checkBoxCur = new PsychUICheckBox(objX, objY, "", 80);
 				checkBoxCur.onClick = function()
 				{
-					eventData[2] = checkBoxCur.checked;
 					eventVals[eventIndex] = Std.string(checkBoxCur.checked);
+					updateHybridEvent();
 				};
 
 				checkBoxCur.checked = eventData[2];
@@ -3287,6 +3338,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				eventUI.push(checkBoxCur);
 
 			}
+
+			updateHybridEvent();
 
 			objY += 50;
 		}
